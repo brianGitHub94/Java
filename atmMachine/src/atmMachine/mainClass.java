@@ -24,14 +24,14 @@ public class mainClass {
 	       Scanner myObj2 = new Scanner (System.in);
 	       if (number == 1) {
 		    //Displays account message.
-		    System.out.println("Savings menu: \nChoose from the following \n1 to check balance \n2 to withdraw \n3 to deposit \n4 to main menu ");
+		    System.out.println("Savings menu: \nChoose from the following \n1 to check balance \n2 to withdraw \n3 to deposit \nPress any other key to go to main menu ");
 	    	//User selected choice.
 	       String username2 = myObj2.nextLine();   
 	       accountSelection(username2, 1);	
 	    }  else if (number == 2) {
 	    	//Checking Menu
 	    	//Displays account message.
-	    	System.out.println("Checking menu:\nChoose from the following \n1 to check balance \n2 to withdraw \n3 to deposit \n4 to main menu ");
+	    	System.out.println("Checking menu:\nChoose from the following \n1 to check balance \n2 to withdraw \n3 to deposit \nPress any other key to go to main menu ");
 	    	//User selected choice.
 	        String username2 = myObj2.nextLine();	
 	       
@@ -39,7 +39,8 @@ public class mainClass {
 	    }  else if (number == 3) {
 	    	//Credit Menu
 	    	//Displays account message.
-	    	System.out.println("Credit menu:\nChoose from the following \n1 to check balance \n2 to withdraw from credit \n3 to pay credit amount \n4 to main menu ");
+	    	System.out.println("Credit menu:\nChoose from the following \n1 to check balance \n2 to withdraw from credit \n3 to pay credit amount \n"
+	    			+ "Press any other key to go to main menu ");
 	    	//User selected choice.
 	    	String username2 = myObj2.nextLine();	  
 	    	
@@ -59,6 +60,7 @@ public static void withdraw(int amount) {
 		
 		try {int username = word.nextInt();
 		
+		//if will be executed if user input is greater then 0 and less then total savings amount.
 		if (username > 0 && username < totalSavings) {
 			System.out.println("$" + username + " has been withdrawn from your account");
 			totalSavings = totalSavings - username;
@@ -67,12 +69,22 @@ public static void withdraw(int amount) {
 			
 			accountMenu(1); 
 			
-		} else if (username < 0) {
+			
+			
+		} //Checks if user input.
+		else if(username == 0) {
+			System.out.println("Number can't be a \"0\". Please try again.");
+			word2.nextLine();	
+			withdraw(1);
+			
+		}
+		//Check if 0 is greater then user input.
+		else if (username < 0) {
 			System.out.println("Amount can't be a negative value. \nPress any key to try again. \n");
 			word2.nextLine();
 			
 			withdraw(1);
-			
+			//User input is a higher amount then what's available in savings this else is executed.
 		} else {
 			System.out.println("Insufficient funds, Press any key to try again.");
 			word2.nextLine();
@@ -101,13 +113,23 @@ public static void withdraw(int amount) {
 			
 			accountMenu(2); 
 			
-		} else if (username < 0) {
+		} 
+		//Checks if number equal to 0.
+		else if(username == 0) {
+			System.out.println("Number can't be a \"0\". Please try again.");
+			word2.nextLine();	
+			withdraw(2);
+			
+		}
+		//Checks if 0 is greater.
+		else if (username < 0) {
 			System.out.println("Amount can't be a negative value. \nPress any key to try again. \n");
 			word2.nextLine();
 			
 			withdraw(2);
-			
-		} else {
+		} 
+		//If neither of the first else if occurs, then username is higher the total checking amount.
+		else {
 			System.out.println("Insufficient funds, Press any key to try again. \n");
 			word2.nextLine();
 			
@@ -134,7 +156,13 @@ public static void withdraw(int amount) {
 		
 			accountMenu(3); 
 			}	
-		} else {
+			
+		} else if(username == 0) {
+				System.out.println("Number can't be a \"0\". Please try again.");
+				word2.nextLine();	
+				withdraw(3);
+				
+			} else {
 			System.out.println("Number can't be a negative value. Please try again.");
 			word2.nextLine();
 			
@@ -172,8 +200,8 @@ public static void deposit(int amount) {
 			
 			accountMenu(1); 
 			//If user selects more then 2000 a message will appear.
-		} else if (username < 0) {
-			System.out.println("Number can't be a negative value.\n"
+		} else if (username <= 0) {
+			System.out.println("Number can't be a negative value or a \"0\".\n"
 					+ "Press any key to try again.");
 			word2.nextLine();
 			
@@ -210,8 +238,8 @@ public static void deposit(int amount) {
 			
 			accountMenu(2); 
 			
-		} else if (username < 0) {
-			System.out.println("Number can't be a negative value.\n"
+		} else if (username <= 0) {
+			System.out.println("Number can't be a negative value or a \"0\".\n"
 					+ "Press any key to try again.");
 			word2.nextLine();
 		
@@ -236,27 +264,56 @@ public static void deposit(int amount) {
 	}
 	if (amount == 3) {
 		//Deposit into credit
-		System.out.println("Please select an account to pay off your credit statement. Current credit statement :" + totalCredit);
-		System.out.println("Press 1 to use Savings \nPress 2 for Checking \nPress any key to cancel and go back.");
+		String creditString = Integer.toString(totalCredit);
+		if (totalCredit < 0) {
+			System.out.println("Please select an account to pay off your credit statement. \nTotal amount owed: $" + creditString.substring(1));
+			System.out.println("Press 1 to use Savings \nPress 2 for Checking \nPress any key to cancel and go back.");
+		}
 		
+		else if (totalCredit == 0) {
+			System.out.println("Great! Looks like you payed of your balance. Credit Balance: $" + totalCredit + ". To pay ahead ");
+			System.out.println("Press 1 to use Savings \nPress 2 for Checking \nPress any key to cancel and go back.");
+		}
+		
+		else if (totalCredit > 0) {
+			System.out.println("Please select an account to pay off your credit statement. Looks like you overpayed. Amount we owe you is $" + totalCredit 
+					+ " To pay ahead");
+			System.out.println("Press 1 to use Savings \nPress 2 for Checking \nPress any key to cancel and go back.");
+		}
+	
 		 
 		try { int username3 = word3.nextInt();
 		
 		if (username3 == 1) {
-			System.out.println("Savings account selected. \nPlease select an amount from savings. \nAmount in savings:" + totalSavings
-					+ "\n Press any letter key to cancel.");
+			System.out.println("Savings account selected. \nPlease select an amount from savings. \nAmount in savings: $" + totalSavings
+					+ "\nPress any letter key to cancel.");
 			int username = word.nextInt();
 			
 			if (username > 0 && username <= totalSavings) {
-				System.out.println("Payment completed" + "$" + username + "Has been used to pay off your credit statement.");
+				System.out.println("Payment completed!" + " $" + username + " has been used to pay off your credit statement.");
 				totalCredit = totalCredit + username;
 				totalSavings = totalSavings - username;
+				
+			    if (totalCredit < 0) {
+				System.out.println("Current amount in Savings: $" + totalSavings + "\nAmount owed in credit Statement: $" + totalCredit);
 				System.out.println("press any button to go to the acccount main menu.");
+			    }
+			    
+			    else if (totalCredit == 0) {
+					System.out.println("Great! Looks like you payed of your balance. "
+							+ " \nCurrent Credit Balance: $" + totalCredit + "." + "\nCurrent amount in Savings: $" + totalSavings + ".");
+					System.out.println("press any button to go to the acccount main menu.");
+			    }
+			    
+				else if (totalCredit > 0) {
+			    System.out.println("Looks like you overpayed.\nAmount we owe you is: $" + totalCredit + ". \nCurrent amount in Savings: $" + totalSavings );
+				System.out.println("\nPress any button to go to the acccount main menu.");
+			    }
 				word2.nextLine();
 			
 				accountMenu(3); 
 			}  else if (username < 0) {
-				System.out.println("Number can't be a negative number.\n"
+				System.out.println("Number can't be a negative number or a \"0\".\n"
 						+ "Press any key to try again.");
 				word2.nextLine();
 				
@@ -270,20 +327,37 @@ public static void deposit(int amount) {
 				
 				accountMenu(3);
 			}		
+			
+			//If user selects option 2 for Checking account.
 		} else if (username3 == 2){
-			System.out.println("Checking account selected. \nPlease select an amount from Checking. \nAmount in Checking:" + totalChecking);
+			System.out.println("Checking account selected. \nPlease select an amount from Checking. \nAmount in Checking $:" + totalChecking);
 			int username = word.nextInt();
 		
 			if (username > 0 && username <= totalChecking) {
-				System.out.println("Payment completed" + "$" + username + "Has been used to pay off your credit statement.");
+				System.out.println("Payment completed!" + " $" + username + " Has been used to pay off your credit statement.");
 				totalCredit = totalCredit + username;
 				totalChecking = totalChecking - username;
-				System.out.println("press any button to go to the acccount main menu.");
+				
+				  if (totalCredit < 0) {
+						System.out.println("Thank you for your payment! Amount owed in credit Statement: $" + totalCredit
+								+ " . Current amount in Checking: $" + totalChecking);
+						System.out.println("press any button to go to the acccount main menu.");
+					    }
+				  else if (totalCredit == 0) {
+						System.out.println("Great! Looks like you payed of your balance."
+								+ "\nCurrent Credit Balance: $" + totalCredit + "." + "\nCurrent amount in Checking: $" + totalChecking + ".");
+						System.out.println("press any button to go to the acccount main menu.");
+				    }
+				    
+					else if (totalCredit > 0) {
+				    System.out.println("Looks like you overpayed.\nAmount we owe you is: $" + totalCredit + ". \nCurrent amount in Checking: $" + totalChecking );
+					System.out.println("Press any button to go to the acccount main menu.");
+				    }			
 				word2.nextLine();
 			
 				accountMenu(3); 
-			}  else if (username < 0) {
-				System.out.println("Number can't be a negative number.\n"
+			}  else if (username <= 0) {
+				System.out.println("Number can't be a negative number or a \"0\".\n"
 						+ "Press any key to try again.");
 				word2.nextLine();
 			
@@ -319,6 +393,71 @@ public static void deposit(int amount) {
 	}
 	
 }
+
+
+   public static void transfers() {
+	   System.out.println("Please select the account you want to transfer from. \n 1 for Savings \n 2 for Checking \nPress any other key to cancel.");
+	   Scanner word = new Scanner (System.in);
+	   String username = word.nextLine();
+	   //If statement if user inputs 1.
+	   if (username.equals("1")) {
+		   System.out.println("User Selected Savings.");
+		   System.out.println("Please select the amount you want to transfer. \nPress any non-number key to cancel transfer. \n Savings amount: $" + totalSavings 
+				   + "\nChecking amount: $" + totalChecking);
+		   Scanner word2 = new Scanner (System.in);
+		   int username2 = word2.nextInt();
+		   //User inserts a string the try catch will stop the error. 
+		   try {
+			   if (totalSavings >= username2) {
+				   totalSavings = totalSavings - username2;
+				   totalChecking = totalChecking + username2;
+				   System.out.println("Transferred completed.\nSavings amount: $" + totalSavings + "\nChecking amount: $" + totalChecking);
+				   System.out.println("Press any button to go back to HomeScreen.");
+				   word.nextLine();
+				   homeScreen();
+			   }
+			   
+		   } catch (Exception e ) {
+			   System.out.print("Cancel sequance initiated. Press any key to go back to home menu.");
+			   word.nextLine();
+			   homeScreen();		   }
+	   }
+	   
+	   else if (username.equals("2")) {
+		   System.out.println("User Selected Checking.");
+		   System.out.println("Please select the amount you want to transfer. \nPress any non-number key to cancel transfer. \n Checking amount: $" + totalChecking 
+				   + "\nSavings amount: $" + totalSavings);
+		   Scanner word2 = new Scanner (System.in);
+		   int username2 = word2.nextInt();
+		   //User inserts a string the try catch will stop the error. 
+		   try {
+			   if (totalChecking >= username2) {
+				   totalChecking = totalChecking - username2;
+				   totalSavings = totalSavings + username2;
+				   System.out.println("Transferred completed.\nChecking amount: $" + totalChecking + "\nSavings amount: $" + totalSavings);
+				   System.out.println("Press any button to go back to HomeScreen.");
+				   word.nextLine();
+				   homeScreen();
+			   }
+			   
+		   } catch (Exception e ) {
+			   System.out.print("Cancel sequance initiated. Press any key to go back to home menu.");
+			   word.nextLine();
+			   homeScreen();		
+			   }
+	   }
+	   
+	   
+	   else {
+		   System.out.println("User activated cancel sequance. Press any key to go back to cancel sequance.");
+		   word.nextLine();
+		   homeScreen();
+	   }
+	   
+   }
+
+
+
     //Method that displays balance.
     public static void balance(int amount) {
 	Scanner myObj2 = new Scanner (System.in);
@@ -337,12 +476,27 @@ public static void deposit(int amount) {
 	}
 	else if ( amount == 3) {
 		//Displays Credit Amount
-		System.out.println("Amount owed in Credit $" + totalCredit);
+		if (totalCredit < 0) {
+			String totalcredit = Integer.toString(totalCredit);
+		System.out.println("Amount owed in Credit $" + totalcredit.substring(1));
 		System.out.println("Press any key to go back.");
+		}
+		
+		else if(totalCredit == 0) {
+			System.out.println("Looks like you paid of your balance. Current balance: $" + totalCredit);
+			System.out.println("Press any key to go back.");
+			
+		}
+		else {
+			System.out.println("Looks like you paid of your balance. Current amount we owe you is: $" + totalCredit);
+			System.out.println("Press any key to go back.");
+			}
+		
 		myObj2.nextLine();
 		accountMenu(3);
+		}
+		
 	}	
-}
 
 public static void accountSelection(String balance, int number) {
 	//Method that allows user to choose between options AFTER selecting their account in selection method. Ex: Check balance, withdraw.
@@ -407,7 +561,9 @@ public static void homeScreen() {
 	System.out.println("   Please choose from the following:"
 	+ "\n\n       Savings press \" 1 \" \n"
 	+  "\n       Checking press \" 2 \" \n"
-	+ "\n       Credit press \" 3 \"");	
+	+ "\n       Credit press \" 3 \" \n"
+	+ "\n       Transfers press \" 4 \""
+	);	
 	//First menu user see that allows user to select between accounts. Ex: Savings, checking
 	Scanner myObj = new Scanner (System.in);
 	Scanner myObj2 = new Scanner (System.in);
@@ -426,7 +582,11 @@ public static void homeScreen() {
 			System.out.println("User selected Credit \n");
 			accountMenu(3);
 			//If user select 3 the account menu method will be executed in credit
-	} else {
+			
+	}      else if (username.equals("4")) {
+		System.out.println("User selected transfers \n");
+		transfers();
+			} else {
 	  System.out.println("Wrong input was selected. \nPress any key to try again. \n");
 	  myObj2.nextLine();
 	

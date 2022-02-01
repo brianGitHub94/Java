@@ -39,7 +39,7 @@ public class mainClass {
 	    }  else if (number == 3) {
 	    	//Credit Menu
 	    	//Displays account message.
-	    	System.out.println("Credit menu:\nChoose from the following \n1 to check balance \n2 to withdraw from credit \n3 to pay credit amount \n"
+	    	System.out.println("Credit menu:\nChoose from the following \n1 to check credit balance and credit limit\n2 to withdraw from credit \n3 to pay credit amount \n"
 	    			+ "Press any other key to go to main menu ");
 	    	//User selected choice.
 	    	String username2 = myObj2.nextLine();	  
@@ -477,19 +477,23 @@ public static void deposit(int amount) {
 	else if ( amount == 3) {
 		//Displays Credit Amount
 		if (totalCredit < 0) {
-			String totalcredit = Integer.toString(totalCredit);
-		System.out.println("Amount owed in Credit $" + totalcredit.substring(1));
-		System.out.println("Press any key to go back.");
+		String totalcredit = Integer.toString(totalCredit);
+		String totalcreditlimit = Integer.toString(totalCreditLimit);
+		System.out.println("Amount owed in Credit: $" + totalcredit.substring(1) 
+		+ "\nTotal Credit limit: $" + totalcreditlimit.substring(1) + "\nPress any key to go back.");
+		
 		}
 		
 		else if(totalCredit == 0) {
-			System.out.println("Looks like you paid of your balance. Current balance: $" + totalCredit);
-			System.out.println("Press any key to go back.");
+			String totalcreditlimit = Integer.toString(totalCreditLimit);
+			System.out.println("Looks like you paid of your balance. Current balance: $" + totalCredit 
+					+ "\nTotal Credit limit: $" + totalcreditlimit.substring(1) + "\nPress any key to go back.");
 			
 		}
 		else {
-			System.out.println("Looks like you paid of your balance. Current amount we owe you is: $" + totalCredit);
-			System.out.println("Press any key to go back.");
+			String totalcreditlimit = Integer.toString(totalCreditLimit);
+			System.out.println("Looks like you paid of your balance. Current amount we owe you is: $" 
+		+ totalCredit + "\nTotal credit limit: $" + totalcreditlimit.substring(1) + "\nPress any key to go back.");
 			}
 		
 		myObj2.nextLine();

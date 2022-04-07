@@ -7,7 +7,7 @@ public class mainClass {
 	public static int totalSavings = 500;
 	public static int totalChecking = 1000;
 	public static int totalCredit = -2000;
-	public static int totalCreditLimit = -4500;
+	public static int totalCreditLimit = -4500; 
 	
 	
 	/*public static void homeScreen()  {

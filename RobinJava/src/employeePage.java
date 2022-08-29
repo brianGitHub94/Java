@@ -1,24 +1,22 @@
 import javax.swing.SwingUtilities;
 
 public class employeePage extends RobinGUI{
-
 	
 	static void mainMenu() {
 		    //Title label
-			getTitle(220,"Employee Menu");
+			getTitle(400,"Employee Menu");
+			//Welcome label. Displays employee's name.
 			getWelcomeLB();
-			homebackBTN();		
+			//Button to log out.
+			homebackBTN();	
+			//Button that takes you to the edit profile menu.
 			profileBTNMethod();
+			//Button that takes you to the map menu.
 			changeSeatBTNMethod();
+			//Request label for user.
 			requestLBMethod(2);
-			SwingUtilities.updateComponentTreeUI(panel);
-			
-	   }
-
-		
-		
-	
-		
+			SwingUtilities.updateComponentTreeUI(panel);	
+	   }	
 }
 	
 	

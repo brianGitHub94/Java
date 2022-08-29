@@ -7,32 +7,29 @@ public class EditProfile extends RobinGUI{
 	static String employeePassword;
 	static String employeeUsername;
 	static int employeeID;
-	static int employeeMapID;
 	
-	static void mainMenu() {
+	static void mainMenu(int profile) {
 		//Title label
-		getTitle(230,"Edit Menu");
-		System.out.println(nameforLB);
+		getTitle(430,"Edit Menu");
 		//TextBox and Labels GUI
-		getUserLB(35,100,"Username:              " + employeeUsername);
-		getPassLB(35,140,"Insert Password: " );
-		getPassTB(150,140,employeePassword);
-		getFnameLB(35,180,"Insert first Name: ");
-		getFnameTB(150,180,employeeName);
-		getLnameLB(35,220,"Insert Last Name: ");
-		getLnameTB(150,220,employeeLName);
-		
+		getUserLB(235,100,"Username:              " + employeeUsername);
+		getPassLB(235,140,"Insert Password: " );
+		getPassTB(350,140,employeePassword);
+		getFnameLB(235,180,"Insert first Name: ");
+		getFnameTB(350,180,employeeName);
+		getLnameLB(235,220,"Insert Last Name: ");
+		getLnameTB(350,220,employeeLName);	
 		//Create button 
 		editBTNMethod();
-		//Go back button
-		employeeMenuBTN();
-		SwingUtilities.updateComponentTreeUI(panel);	
-		return;
-	}
-	
-	
-	
-	
+		/*If profile equals 1 the back button will take user back to employee page
+		if equals 2 it'll take them to admin page.*/
+		  if (profile == 1) {
+			//Go back button
+			employeeMenuBTN();
+		} else 
+			RobinGUI.adminProfileListBTN();
+			SwingUtilities.updateComponentTreeUI(panel);	
+	}	
 }
 	
 	

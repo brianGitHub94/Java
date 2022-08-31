@@ -34,7 +34,6 @@ public class SQLScripts extends RobinGUI{
 	       		EditProfile.employeePassword = rs.getString("password");  		
 	            EditProfile.employeeUsername = username;
 	         }  
-	         //Clses statement and connection
 	         rs.close();
 	         stmt.close();
 	         c.close();
@@ -47,8 +46,10 @@ public class SQLScripts extends RobinGUI{
 	        	   panel.removeAll();
 	        	   AdminPage.mainMenu();
 	           }  else {
-	        	   RobinGUI.getWrongCredentials();	           
+	        	   getFeedbackLB(340,250,"Wrong credentials. Please try again!");
+	        	   SwingUtilities.updateComponentTreeUI(panel);
 	           }
+	             
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -84,7 +85,7 @@ public class SQLScripts extends RobinGUI{
 	         if (RobinGUI.searchTB.getText().equals("brian") || RobinGUI.searchTB.getText().equals("") || !RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
 	        	 panel.removeAll();
 	        	 ProfileList.mainMenu();
-	        	 getAccountNotFoundLB(515, 475, "Account not found");
+	        	 getFeedbackLB(515, 475, "Account not found");
 	         }
 	         else if (RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
 	        	 panel.removeAll();
@@ -120,15 +121,15 @@ public class SQLScripts extends RobinGUI{
 	           //If email and password matches from the database it'll enter employee page.
 	         	if (RobinGUI.searchTB.getText().equals("brian") || RobinGUI.searchTB.getText().equals("") || !RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
 	         		panel.removeAll();
-	         		AdminMap.getEmployeeLB(100, 75, "Account not found");
+	         		AdminMap.getUserLB(100, 75, "Account not found");
 	         		AdminMap.emailValue = null;
 	         		AdminMap.mainMenu();
 	         		
 	         } else {
 	        	    AdminMap.counter = 1;
 	        	 	panel.removeAll();
-	        	 	AdminMap.getEmployeeLB(100, 75, "Emailed selected: " + EditProfile.employeeUsername);
-	        	 	AdminMap.getEmployeeNameLB(100, 300,"Employee name: " + EditProfile.employeeName + " " + EditProfile.employeeLName);
+	        	 	getUserLB(100, 75, "Emailed selected: " + EditProfile.employeeUsername);
+	        	 	getThirdLB(100, 300,"Employee name: " + EditProfile.employeeName + " " + EditProfile.employeeLName);
 	        	 	AdminMap.mainMenu();
 	         } 	   
 	         //Closes statement and connection
@@ -163,7 +164,7 @@ public class SQLScripts extends RobinGUI{
 	   	     c.close();
 	         panel.removeAll();
 	         AdminMap.mainMenu();
-	         AdminMap.buttonErrorLB(275, 325, "Please remove employee from assigned seat before assigning.");
+	         getFeedbackLB(275, 325, "Please remove employee from assigned seat before assigning.");
 	         SwingUtilities.updateComponentTreeUI(panel);	
 	         }  else {
 	        	 rs.close();
@@ -194,7 +195,7 @@ public class SQLScripts extends RobinGUI{
    					AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
    				}
    				if (AdminMap.employeeSeatEmpty2 != null) {
-   					AdminMap.buttonErrorLB(350, 330, "Please make sure the seat is empty.");
+   					getFeedbackLB(350, 330, "Please make sure the seat is empty.");
    					rs.close();
    					stmt.close();
    					c.close();
@@ -229,7 +230,7 @@ public static void GetAccountSeat3(String seatNumber) {
         	 AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
          }
          	if (AdminMap.employeeSeatEmpty2 == null) {
-         AdminMap.buttonErrorLB(350, 330, "Please make sure the seat is not empty.");
+         		getFeedbackLB(350, 330, "Please make sure the seat is not empty.");
          rs.close();
          stmt.close();
          c.close();
@@ -428,8 +429,8 @@ public static void GetAllAccounts()  {
 		        		 if (e.getClickCount() == 1)  {
 		        		 JTable target = (JTable)e.getSource();
 		        		 int row = target.getSelectedRow();
-		        		RobinGUI.RequestedEmail = (String) model5.getValueAt(row, 2);
-		        		AdminMap.seatNumberLB(100, 75, "User selected: " + RobinGUI.RequestedEmail);
+		        		 AdminMap.RequestedEmail = (String) model5.getValueAt(row, 2);
+		        		AdminMap.seatNumberLB(100, 75, "User selected: " + AdminMap.RequestedEmail);
 		        		RequestPage.AdminRequestSeat = (String) model5.getValueAt(row, 4);
 		        		 }
 		        	 }        	 
@@ -579,7 +580,7 @@ public static void GetAllAccounts()  {
    				stmt.executeUpdate(query);
    				c.close();
    				stmt.close();
-   				getAccountNotFoundLB(400, 320, "Account details updated.");
+   				getFeedbackLB(400, 320, "Account details updated.");
    			} catch (Exception e) {
    				e.printStackTrace();
    				System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -604,13 +605,13 @@ public static void GetAllAccounts()  {
    				c.close();
    				stmt.close();
    				panel.removeAll();
-   				getInsertLB(430,325,"Insert complete");
+   				getFeedbackLB(430,325,"Insert complete");
    				CreateEditProfile.mainMenu();
    			} catch (Exception e) {
    				e.printStackTrace();
    				System.err.println(e.getClass().getName()+": "+e.getMessage());
    				panel.removeAll();
-   				getAccountNotFoundLB(380, 325, "Email address already exist");
+   				getFeedbackLB(380, 325, "Email address already exist");
    				CreateEditProfile.mainMenu();
    			}
    			SwingUtilities.updateComponentTreeUI(panel);	
@@ -633,7 +634,7 @@ public static void GetAllAccounts()  {
 			if (a == 1) {
 			updateSeatEmail(1,EditProfile.employeeUsername, AdminMap.originalSeatID);
 			} else {
-				updateSeatEmail(2,RobinGUI.RequestedEmail,RequestPage.AdminRequestSeat);
+				updateSeatEmail(2,AdminMap.RequestedEmail,RequestPage.AdminRequestSeat);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -653,7 +654,7 @@ public static void GetAllAccounts()  {
 							"postgres", "123");
 			stmt = c.createStatement();
  
-			String query = "UPDATE seatid SET employee_name = '" + email + "' WHERE seat_number = '" + SeatID + "'";
+			String query = "UPDATE seatid SET employee_name = '" + email + "', seat_assigned = 'Yes' WHERE seat_number = '" + SeatID + "'";
 			//Executes Query
 			stmt.executeUpdate(query);
 			c.close(); 
@@ -661,9 +662,9 @@ public static void GetAllAccounts()  {
 			if ( a ==1) {
 			panel.removeAll();
 			AdminMap.mainMenu();
-			AdminMap.buttonErrorLB(400, 350, "Account updated!");
+			getFeedbackLB(400, 350, "Account updated!");
 			} else {
-				AdminMap.buttonErrorLB(400, 350, "Account updated!");
+				getFeedbackLB(400, 350, "Account updated!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -773,7 +774,7 @@ public static void GetAllAccounts()  {
 							"postgres", "123");
 			stmt = c.createStatement();
 
-			String query = "UPDATE seatid SET employee_name = NULL WHERE seat_number = '" + seatNumber+ "';";
+			String query = "UPDATE seatid SET employee_name = NULL, seat_assigned = 'No' WHERE seat_number = '" + seatNumber+ "';";
 			//Executes Query
 			stmt.executeUpdate(query);
 			c.close(); 
@@ -781,7 +782,7 @@ public static void GetAllAccounts()  {
 			if (a == 1) {
 			panel.removeAll();
 			AdminMap.mainMenu();
-			AdminMap.buttonErrorLB(400, 350, "Account updated!");
+			getFeedbackLB(400, 350, "Account updated!");
 			}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -800,7 +801,7 @@ public static void GetAllAccounts()  {
 								"postgres", "123");
 				stmt = c.createStatement();
 
-				String query = "UPDATE seatid SET employee_name = NULL WHERE employee_name = '" + RobinGUI.RequestedEmail + "';";
+				String query = "UPDATE seatid SET employee_name = NULL, SET seat_assigned = 'No' WHERE employee_name = '" + AdminMap.RequestedEmail + "';";
 				//Executes Query
 				stmt.executeUpdate(query);
 				c.close(); 

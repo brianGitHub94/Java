@@ -23,7 +23,6 @@ public class RobinGUI {
 	static JButton homeBTN = new JButton();
 	static JButton loginBTN = new JButton();
 	static JLabel requestLB = new JLabel();
-	static JLabel credentialsLB = new JLabel();
 	static JButton adminMenuBTN = new JButton();
 	static JButton employeeMenuBTN = new JButton();
 	static JButton profileBTN = new JButton();
@@ -35,12 +34,10 @@ public class RobinGUI {
 	static JButton backProfileBTN = new JButton();
 	static JButton createMenuBTN = new JButton();
 	static JButton createBTN = new JButton();
-	static JLabel insertCompleteLB = new JLabel(); 
 	static JTextField searchTB = new JTextField();
-	static JLabel searchLB = new JLabel(); 
 	static JButton searchBTN = new JButton();
 	static JButton adminProfileListBTN = new JButton();
-	static JLabel errorLB = new JLabel();
+	static JLabel feedbackLB = new JLabel();
 	static JButton nextRoomBTN = new JButton();
 	static JButton previousRoomBTN = new JButton();
 	static JButton mapSearchBTN = new JButton();
@@ -50,7 +47,7 @@ public class RobinGUI {
 	static JButton cancelEmpRequestBTN = new JButton();
 	static JButton adminEmpRequestBTN = new JButton();
 	static JButton adminCancelEmpRequestBTN = new JButton();
-	static String RequestedEmail;
+	static JLabel seatNumberLB = new JLabel();
 	
 	public RobinGUI() {
 	//Setting the size of the window when it opens.
@@ -180,12 +177,12 @@ public class RobinGUI {
 			public void actionPerformed(ActionEvent e) {
 				if (fNameTB.getText().equals("") || lNameTB.getText().equals("") || usernameTB.getText().equals("") || passwordTB.getText().equals("")){
 				panel.removeAll();
-				 getAccountNotFoundLB(380, 325, "Account details cannot be empty");
+				getFeedbackLB(380, 325, "Account details cannot be empty");
 				 CreateEditProfile.mainMenu();
 				} else {
 					SQLScripts.insertAccount(0, fNameTB.getText(), lNameTB.getText(), usernameTB.getText(), passwordTB.getText());
 				}
-				}
+			}
 		});			
 		//Logs the user in to either the employee or admin page.
 		searchBTN.addActionListener(new ActionListener() {
@@ -207,15 +204,15 @@ public class RobinGUI {
 						if (AdminMap.emailValue == null) {
 							panel.removeAll();
 							AdminMap.mainMenu();
-							AdminMap.buttonErrorLB(280, 320, "Please select a current employee from list before assigning.");
+							getFeedbackLB(280, 320, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-							AdminMap.buttonErrorLB(400, 320, "Please select a seat.");
+							getFeedbackLB(400, 320, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
 						panel.removeAll();
 						AdminMap.mainMenu();
-						AdminMap.buttonErrorLB(350, 320, "Please empty seat before assigning.");
+						getFeedbackLB(350, 320, "Please empty seat before assigning.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
@@ -224,7 +221,7 @@ public class RobinGUI {
 					}	else if (AdminMap.seatValue == null && AdminMap.employeeAssigned == null) {
 						SQLScripts.GetAccountSeat();
 					} else {
-						AdminMap.buttonErrorLB(250, 320, "Please remove employee from assigned seat before assigning.");
+						AdminMap.getFeedbackLB(250, 320, "Please remove employee from assigned seat before assigning.");
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}
 					}
@@ -233,12 +230,12 @@ public class RobinGUI {
 				removeSeatBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-							AdminMap.buttonErrorLB(400, 320, "Please select a seat.");
+							getFeedbackLB(400, 320, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatValue == null) {
 						panel.removeAll();
 						AdminMap.mainMenu();
-						AdminMap.buttonErrorLB(390, 320, "Seat is already empty.");
+						getFeedbackLB(390, 320, "Seat is already empty.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
@@ -249,13 +246,12 @@ public class RobinGUI {
 					} 	 
 				}
 			});	
-				
-				
+			
 				//Request button for user in employee map page
 				empRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-						 AdminMap.buttonErrorLB(335,490,"Please select a seat before requesting a seat.");
+						 getFeedbackLB(335,490,"Please select a seat before requesting a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else {
 						SQLScripts.addRequestedSeat(EditProfile.employeeUsername, EmployeeMap.employeeSeatNumber);
@@ -268,13 +264,13 @@ public class RobinGUI {
 				cancelEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (EditProfile.changeRequestDetail.equals("2")) {
-						 AdminMap.buttonErrorLB(335,490,"Cancel request failed. No request active.");
+						 getFeedbackLB(335,490,"Cancel request failed. No request active.");
 						 SwingUtilities.updateComponentTreeUI(panel);
 						} else {
 					 SQLScripts.removeRequestedSeat(EditProfile.employeeUsername);	
 					 panel.removeAll();
 					 EmployeeMap.mainMenu();
-					 AdminMap.buttonErrorLB(375,490,"Request cancelled successfully!");
+					 getFeedbackLB(375,490,"Request cancelled successfully!");
 						}
 					}	
 			});	
@@ -282,19 +278,19 @@ public class RobinGUI {
 				//Approve button for admin in Admin request page
 				adminEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) { 
-						if (RequestedEmail == null) {
-							AdminMap.buttonErrorLB(400,490,"Please select a user.");
+						if (AdminMap.RequestedEmail == null) {
+							getFeedbackLB(400,490,"Please select a user.");
 							SwingUtilities.updateComponentTreeUI(panel);
 						} else {	
 						//Remove current employee if there's any. 
 						SQLScripts.removeEmailSeat2();
-						SQLScripts.removeSeatEmail2(RobinGUI.RequestedEmail);
+						SQLScripts.removeSeatEmail2(AdminMap.RequestedEmail);
 						//Update new employee to new seat.
-						SQLScripts.updateEmailSeat(2,RequestPage.AdminRequestSeat,RobinGUI.RequestedEmail);
+						SQLScripts.updateEmailSeat(2,RequestPage.AdminRequestSeat,AdminMap.RequestedEmail);
 						SQLScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 						panel.removeAll();
-						RequestedEmail = null;
-						AdminMap.buttonErrorLB(375,490,"Request approved successfully!");
+						AdminMap.RequestedEmail = null;
+						getFeedbackLB(375,490,"Request approved successfully!");
 						RequestPage.mainMenu();
 						SwingUtilities.updateComponentTreeUI(panel);	
 						}
@@ -303,22 +299,18 @@ public class RobinGUI {
 				//Deny request button for admin in Admin request page
 				adminCancelEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e)  {
-						if (RequestedEmail == null) {
-							AdminMap.buttonErrorLB(400,490,"Please select a user.");
+						if (AdminMap.RequestedEmail == null) {
+							getFeedbackLB(400,490,"Please select a user.");
 							SwingUtilities.updateComponentTreeUI(panel);
 						} else {
 							SQLScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 							panel.removeAll();
-							RequestedEmail = null;
-							AdminMap.buttonErrorLB(375,490,"Request denied successfully!");
-							RequestPage.mainMenu();	
-							
-						}
-						
-							
+							AdminMap.RequestedEmail = null;
+							getFeedbackLB(375,490,"Request denied successfully!");
+							RequestPage.mainMenu();							
+						}				
 					}	
-			});	
-					
+			});						
 }
 	//Get screen title
 	public static void getTitle(int xValue, String title)  {
@@ -329,14 +321,14 @@ public class RobinGUI {
 		return;
 	}
 
-	//Get Username label
+	//Jlabel regarding username or email.
 	static void getUserLB(int lbX, int lbY, String text)  {
 		usernameLB.setBounds(lbX,lbY,300,30);
 		usernameLB.setText(text);
 		panel.add(usernameLB);
 	}
-	//Get Password label
-	static void getPassLB(int lbX, int lbY, String text)  {
+	//Label that displays information like password or seat requested number.
+	static void getSecondLB(int lbX, int lbY, String text)  {
 		passwordLB.setBounds(lbX,lbY,250,30);
 		passwordLB.setText(text);
 		panel.add(passwordLB);
@@ -359,14 +351,13 @@ public class RobinGUI {
 		passwordTB.setText(text);
 		
 	}
-	//Get First name label
-	static void getFnameLB(int lbX, int lbY, String Label)  {
-		//first name label
+	//Label that displays information like password or seat requested number.
+	static void getThirdLB(int lbX, int lbY, String Label)  {
 		fNameLB.setBounds(lbX,lbY,250,30);
 		fNameLB.setText(Label);
 		panel.add(fNameLB);
 	}
-	//Get last name label
+	///Label that displays last name.
 	static void getLnameLB(int lbX, int lbY, String Label)  {
 		lNameLB.setBounds(lbX,lbY,250,30);
 		lNameLB.setText(Label);
@@ -388,14 +379,6 @@ public class RobinGUI {
 	//Setting text to null.
 	lNameTB.setText(text);
 	}
-	
-	//Get search label for search textbox
-		static void getSearchLB(int lbX, int lbY, String Label)  {
-				searchLB.setBounds(lbX,lbY,250,40);
-				searchLB.setText(Label);
-				panel.add(searchLB);
-			}
-		
 		//Get search textbox
 		static void getSearchTB(int tbX, int tbY, String text)  {
 			searchTB.setBounds(tbX,tbY,150,40);
@@ -404,14 +387,7 @@ public class RobinGUI {
 			//Setting text to null.
 			searchTB.setText(text);
 		}
-			
-	//Method that displays the insert label
-	static void getInsertLB(int lbX, int lbY, String Label)  {
-		insertCompleteLB.setBounds(lbX,lbY,250,30);
-		insertCompleteLB.setText(Label);
-		panel.add(insertCompleteLB);
-	}
-	
+		
 	//Method that displays the welcome label
 	static void getWelcomeLB()  {
 		welcomeLB.setText("Welcome " + EditProfile.employeeName);
@@ -419,20 +395,18 @@ public class RobinGUI {
 		panel.add(welcomeLB);
 	
 	}
-	
-	static void getWrongCredentials() {
-		credentialsLB.setText("Wrong credentials. Please try again!");
-		credentialsLB.setBounds(340,250,250,30);
-		panel.add(credentialsLB);
-		SwingUtilities.updateComponentTreeUI(panel);
-	}
-	
-	//Get accoount not found label 
-	static void getAccountNotFoundLB(int lbX, int lbY, String Label)  {
-			errorLB.setBounds(lbX,lbY,250,30);
-			errorLB.setText(Label);
-			panel.add(errorLB);
+	//JLabel for most feedback when a button is pressed.
+	static void getFeedbackLB(int lbX, int lbY, String Label)  {
+		feedbackLB.setBounds(lbX,lbY,400,30);
+		feedbackLB.setText(Label);
+			panel.add(feedbackLB);
 				}
+
+	static void seatNumberLB(int lbX, int lbY, String Label)  {
+		seatNumberLB.setBounds(lbX,lbY,250,30);
+		seatNumberLB.setText(Label);
+		panel.add(seatNumberLB);
+	}
 	
 	//Method that displays the request text
 		public static void requestLBMethod(int i) {
@@ -484,8 +458,7 @@ public class RobinGUI {
 		employeeMenuBTN.setBounds(50, 500, 100, 40);
 		employeeMenuBTN.setText("back");
 		panel.add(employeeMenuBTN);
-		SwingUtilities.updateComponentTreeUI(panel);	
-		
+		SwingUtilities.updateComponentTreeUI(panel);		
 	}
 	
 	//Employee Page specific buttons 
@@ -501,8 +474,7 @@ public class RobinGUI {
 	changeSeatBTN.setBounds(450, 200, 250, 50);
 	changeSeatBTN.setText("Change seat");
 	panel.add(changeSeatBTN);
-	SwingUtilities.updateComponentTreeUI(panel);	
-	
+	SwingUtilities.updateComponentTreeUI(panel);		
 }
 
 	//Admin specific buttons

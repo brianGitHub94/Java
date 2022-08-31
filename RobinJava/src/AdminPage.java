@@ -1,9 +1,6 @@
 import javax.swing.SwingUtilities;
 
 public class AdminPage extends RobinGUI {
-	
-	
-
 	//Admin menu. Pages to take you to the edit/create profile pages, request page, and map page. 
 	 public static void mainMenu() {	
 		 //Resets the email value.
@@ -14,7 +11,7 @@ public class AdminPage extends RobinGUI {
 		 AdminMap.seatValue = null;
 		 AdminMap.employeeAssigned = null;
 		 //Resest requested email value
-		 RequestedEmail = null;
+		 AdminMap.RequestedEmail = null;
 		//Title label
 		getTitle(400,"Admin Menu");
 		//Log out button.

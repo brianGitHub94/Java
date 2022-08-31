@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 	    adminMenuBTN(50);	
 	    adminEmpRequestBTN();
 	    adminCancelEmpRequestBTN();
-	    SQLScripts.GetEmailsMapList2();
+	    SQLTableScripts.GetRequestList();
 	    AdminMap.seatNumberLB(100, 75, "Please select a user: ");
 		SwingUtilities.updateComponentTreeUI(panel);	
 	}

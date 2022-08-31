@@ -10,7 +10,7 @@ public class AdminPage extends RobinGUI {
 		 //Resets the seat value.
 		 AdminMap.seatValue = null;
 		 AdminMap.employeeAssigned = null;
-		 //Resest requested email value
+		 //Resets requested email value
 		 AdminMap.RequestedEmail = null;
 		//Title label
 		getTitle(400,"Admin Menu");

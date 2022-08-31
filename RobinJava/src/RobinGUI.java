@@ -74,7 +74,7 @@ public class RobinGUI {
 	//Logs the user in to either the employee or admin page.
 	loginBTN.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			SQLScripts.sqlLogin(usernameTB.getText());
+			SQLSelectScripts.sqlLogin(usernameTB.getText());
 		}
 	});
 	//Takes admin back to the admin menu.
@@ -91,7 +91,7 @@ public class RobinGUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			SQLScripts.sqlLogin(EditProfile.employeeUsername);
+			SQLSelectScripts.sqlLogin(EditProfile.employeeUsername);
 			employeePage.mainMenu();
 		}
 	});
@@ -142,7 +142,7 @@ public class RobinGUI {
 	insertBTN.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			SQLScripts.updateName(EditProfile.employeeID,fNameTB.getText(),lNameTB.getText(), passwordTB.getText());
+			SQLUpdateInsert.EditAccountInfo(EditProfile.employeeID,fNameTB.getText(),lNameTB.getText(), passwordTB.getText());
 
 		}
 	});
@@ -180,14 +180,14 @@ public class RobinGUI {
 				getFeedbackLB(380, 325, "Account details cannot be empty");
 				 CreateEditProfile.mainMenu();
 				} else {
-					SQLScripts.insertAccount(0, fNameTB.getText(), lNameTB.getText(), usernameTB.getText(), passwordTB.getText());
+					SQLUpdateInsert.insertAccount(0, fNameTB.getText(), lNameTB.getText(), usernameTB.getText(), passwordTB.getText());
 				}
 			}
 		});			
 		//Logs the user in to either the employee or admin page.
 		searchBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			SQLScripts.sqlConnectionAdmin(searchTB.getText());
+			SQLSelectScripts.sqlAdmin(searchTB.getText());
 				
 			}
 		});
@@ -195,10 +195,10 @@ public class RobinGUI {
 		//Searches user in the admin map.
 		mapSearchBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			SQLScripts.sqlConnectionGetAccount(searchTB.getText());					
+			SQLSelectScripts.DisplayAccountsMapPage(searchTB.getText());					
 			}
 	});			
-		//Searches user in the admin map.
+		//Assigns employee to seat in AdminMap.
 				assignSeatBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (AdminMap.emailValue == null) {
@@ -206,7 +206,7 @@ public class RobinGUI {
 							AdminMap.mainMenu();
 							getFeedbackLB(280, 320, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
-						} else if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
+						} else if (seatNumberLB.getText() == "Please select a seat number: ") {
 							getFeedbackLB(400, 320, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
@@ -219,9 +219,9 @@ public class RobinGUI {
 						AdminMap.seatValue = null;
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue == null && AdminMap.employeeAssigned == null) {
-						SQLScripts.GetAccountSeat();
+						SQLSelectScripts.CheckEmpSeatStatus();
 					} else {
-						AdminMap.getFeedbackLB(250, 320, "Please remove employee from assigned seat before assigning.");
+						AdminMap.getFeedbackLB(280, 320, "Please remove employee from assigned seat before assigning.");
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}
 					}
@@ -242,7 +242,7 @@ public class RobinGUI {
 						AdminMap.seatValue = null;
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue != null) {
-						SQLScripts.GetAccountSeat3(AdminMap.originalSeatID);
+						SQLSelectScripts.checkSeatStatus2(AdminMap.originalSeatID);
 					} 	 
 				}
 			});	
@@ -254,7 +254,7 @@ public class RobinGUI {
 						 getFeedbackLB(335,490,"Please select a seat before requesting a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else {
-						SQLScripts.addRequestedSeat(EditProfile.employeeUsername, EmployeeMap.employeeSeatNumber);
+						SQLUpdateInsert.addRequestedSeat(EditProfile.employeeUsername, EmployeeMap.employeeSeatNumber);
 						panel.removeAll();
 						EmployeeMap.mainMenu();
 						}
@@ -267,7 +267,7 @@ public class RobinGUI {
 						 getFeedbackLB(335,490,"Cancel request failed. No request active.");
 						 SwingUtilities.updateComponentTreeUI(panel);
 						} else {
-					 SQLScripts.removeRequestedSeat(EditProfile.employeeUsername);	
+					 SQLRemoveScripts.removeRequestedSeat(EditProfile.employeeUsername);	
 					 panel.removeAll();
 					 EmployeeMap.mainMenu();
 					 getFeedbackLB(375,490,"Request cancelled successfully!");
@@ -283,11 +283,11 @@ public class RobinGUI {
 							SwingUtilities.updateComponentTreeUI(panel);
 						} else {	
 						//Remove current employee if there's any. 
-						SQLScripts.removeEmailSeat2();
-						SQLScripts.removeSeatEmail2(AdminMap.RequestedEmail);
+						SQLRemoveScripts.remCurrentEmpSeatID();
+						SQLRemoveScripts.removeCurrentEmpSeat(AdminMap.RequestedEmail);
 						//Update new employee to new seat.
-						SQLScripts.updateEmailSeat(2,RequestPage.AdminRequestSeat,AdminMap.RequestedEmail);
-						SQLScripts.removeRequestedSeat(AdminMap.RequestedEmail);
+						SQLUpdateInsert.AssignSeatToEmp(2,RequestPage.AdminRequestSeat,AdminMap.RequestedEmail);
+						SQLRemoveScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 						panel.removeAll();
 						AdminMap.RequestedEmail = null;
 						getFeedbackLB(375,490,"Request approved successfully!");
@@ -303,7 +303,7 @@ public class RobinGUI {
 							getFeedbackLB(400,490,"Please select a user.");
 							SwingUtilities.updateComponentTreeUI(panel);
 						} else {
-							SQLScripts.removeRequestedSeat(AdminMap.RequestedEmail);
+							SQLRemoveScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 							panel.removeAll();
 							AdminMap.RequestedEmail = null;
 							getFeedbackLB(375,490,"Request denied successfully!");
@@ -412,7 +412,7 @@ public class RobinGUI {
 		public static void requestLBMethod(int i) {
 			if (i == 1) {
 			requestLB.setBounds(50, 50, 200, 50);
-			SQLScripts.countRows();
+			SQLSelectScripts.countRows();
 			requestLB.setText("Number of requests: " + AdminMap.numberOfRequests);
 			} else if (i == 2) {
 				requestLB.setBounds(370, 100, 200, 50);

@@ -1,10 +1,15 @@
 import javax.swing.SwingUtilities;
 
 public class EditProfile extends RobinGUI{
+	//Employee first name
 	static String employeeName;
+	//Employee last name
 	static String employeeLName;
+	//Employee password
 	static String employeePassword;
+	//Employee email
 	static String employeeUsername;
+	//Employee Id
 	static int employeeID;
 	static String changeRequestDetail;
 	

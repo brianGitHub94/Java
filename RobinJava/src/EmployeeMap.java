@@ -1,7 +1,7 @@
 import javax.swing.SwingUtilities;
 
 public class EmployeeMap extends RobinGUI{
-	
+	//String of seat number selected.
 	static String employeeSeatNumber;
 	//String of user requested seat.
 	static String empRequestSeat;
@@ -10,10 +10,10 @@ public class EmployeeMap extends RobinGUI{
 		//Title label
 		getTitle(400,"Map menu");
 	    employeeMenuBTN();	
-	    SQLScripts.GetSeatList2();
+	    SQLTableScripts.GetSeatList2();
 		RobinGUI.getUserLB(390, 400, "User: " + EditProfile.employeeUsername);
 		AdminMap.seatNumberLB(200, 75, "Please select a seat number: ");
-		SQLScripts.getRequestDetail();
+		SQLSelectScripts.getRequestDetail();
 		empRequestBTN();
 		cancelEmpRequestBTN();
 		 if (EditProfile.changeRequestDetail.equals("1") ) {

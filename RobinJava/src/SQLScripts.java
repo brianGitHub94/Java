@@ -12,10 +12,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class SQLScripts extends RobinGUI{
 	
+	static Connection c = null;
+    static Statement stmt = null;
+    
 	//Method to check if user and password matches in the database. 
-public static void sqlConnection(String username)  {
-		Connection c = null;
-	    Statement stmt = null;
+    public static void sqlLogin(String username)  {
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -45,7 +46,9 @@ public static void sqlConnection(String username)  {
 	           } else if (username.equals("brian") && RobinGUI.passwordTB.getText().equals(EditProfile.employeePassword)) {
 	        	   panel.removeAll();
 	        	   AdminPage.mainMenu();
-	           }  
+	           }  else {
+	        	   RobinGUI.getWrongCredentials();	           
+	           }
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -54,10 +57,8 @@ public static void sqlConnection(String username)  {
 	      }		
 		}
 
-//Method to get admin in the database.
-public static void sqlConnectionAdmin(String username)  {
-		Connection c = null;
-	    Statement stmt = null;
+   //Method to get admin in the database.
+   public static void sqlConnectionAdmin(String username)  {
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -97,10 +98,8 @@ public static void sqlConnectionAdmin(String username)  {
 	      }		
 		}
 
-//Method to get account in the search bar in admin map.
-public static void sqlConnectionGetAccount(String username)  {
-		Connection c = null;
-	    Statement stmt = null;
+   		//Method to get account in the search bar in admin map.
+   		public static void sqlConnectionGetAccount(String username)  {
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -143,10 +142,8 @@ public static void sqlConnectionGetAccount(String username)  {
 	         SwingUtilities.updateComponentTreeUI(panel);	
 	      }		
 		}
-//This method executes when Assign button is clicked in Admin map page.
-public static void GetAccountSeat() {
-		Connection c = null;
-	    Statement stmt = null;
+   		//This method executes when Assign button is clicked in Admin map page.
+   		public static void GetAccountSeat() {
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -161,16 +158,19 @@ public static void GetAccountSeat() {
 	        	 AdminMap.employeeSeatEmpty =  rs.getInt("seat_assigned");
 	         }
 	         	if (AdminMap.employeeSeatEmpty != 0) {
+	         rs.close();
+	   	     stmt.close();
+	   	     c.close();
 	         panel.removeAll();
 	         AdminMap.mainMenu();
-	         AdminMap.buttonErrorLB(250, 330, "Please remove employee from assigned seat before assigning.");
+	         AdminMap.buttonErrorLB(275, 325, "Please remove employee from assigned seat before assigning.");
 	         SwingUtilities.updateComponentTreeUI(panel);	
-	         } 	   
-	         //Closes statement and connection
-	         rs.close();
-	         stmt.close();
-	         c.close();
-	         GetAccountSeat2();	
+	         }  else {
+	        	 rs.close();
+		         stmt.close();
+		         c.close();
+		         GetAccountSeat2();	
+	         }
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -178,42 +178,43 @@ public static void GetAccountSeat() {
 	         SwingUtilities.updateComponentTreeUI(panel);	
 	      }		
 		}
-//This method executes when Assign button is clicked in Admin map page..
-public static void GetAccountSeat2() {
-	Connection c = null;
-    Statement stmt = null;
-      try {
-         Class.forName("org.postgresql.Driver");
-         c = DriverManager
-            .getConnection("jdbc:postgresql://localhost:5432/brianacosta",
-            "postgres", "123");
-         c.setAutoCommit(false);
-         stmt = c.createStatement();
-         String query = "SELECT employee_name FROM seatid WHERE seat_number = '" + AdminMap.seatValue + "';";
-       //Executes Query
-         ResultSet rs = stmt.executeQuery(query); 
-         while ( rs.next() ) {   
-        	 AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
-         }
-         	if (AdminMap.employeeSeatEmpty2 != null) {
-         AdminMap.buttonErrorLB(350, 330, "Please make sure the seat is empty.");
-         }  	   
-         //Closes statement and connection
-         rs.close();
-         stmt.close();
-         c.close();
-         updateEmailSeat();
-      } catch (Exception e) {
-         e.printStackTrace();
-         System.err.println(e.getClass().getName()+": "+e.getMessage());
-         System.exit(0);
-         SwingUtilities.updateComponentTreeUI(panel);	
-      }		
-	}
+   		//This method executes when Assign button is clicked in Admin map page..
+   		public static void GetAccountSeat2() {
+   			try {
+   				Class.forName("org.postgresql.Driver");
+   				c = DriverManager
+   						.getConnection("jdbc:postgresql://localhost:5432/brianacosta",
+   								"postgres", "123");
+   				c.setAutoCommit(false);
+   				stmt = c.createStatement();
+   				String query = "SELECT employee_name FROM seatid WHERE seat_number = '" + AdminMap.seatValue + "';";
+   				//Executes Query
+   				ResultSet rs = stmt.executeQuery(query); 
+   				while ( rs.next() ) {   
+   					AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
+   				}
+   				if (AdminMap.employeeSeatEmpty2 != null) {
+   					AdminMap.buttonErrorLB(350, 330, "Please make sure the seat is empty.");
+   					rs.close();
+   					stmt.close();
+   					c.close();
+   					panel.removeAll();
+   					AdminMap.mainMenu();
+   				} else {
+   					rs.close();
+   					stmt.close();
+             	c.close();
+             	updateEmailSeat(1,AdminMap.originalSeatID,EditProfile.employeeUsername); 
+   				}
+   			} catch (Exception e) {
+   				e.printStackTrace();
+   				System.err.println(e.getClass().getName()+": "+e.getMessage());
+   				System.exit(0);
+   				SwingUtilities.updateComponentTreeUI(panel);	
+   			}		
+   		}
 //This method executes when Assign button is clicked in Admin map page.
-public static void GetAccountSeat3() {
-	Connection c = null;
-    Statement stmt = null;
+public static void GetAccountSeat3(String seatNumber) {
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
@@ -221,7 +222,7 @@ public static void GetAccountSeat3() {
             "postgres", "123");
          c.setAutoCommit(false);
          stmt = c.createStatement();
-         String query = "SELECT employee_name FROM seatid WHERE seat_number = '" + AdminMap.originalSeatID + "';";
+         String query = "SELECT employee_name FROM seatid WHERE seat_number = '" + seatNumber + "';";
        //Executes Query
          ResultSet rs = stmt.executeQuery(query); 
          while ( rs.next() ) {   
@@ -229,12 +230,18 @@ public static void GetAccountSeat3() {
          }
          	if (AdminMap.employeeSeatEmpty2 == null) {
          AdminMap.buttonErrorLB(350, 330, "Please make sure the seat is not empty.");
-         }  
-         //Closes statement and connection
          rs.close();
          stmt.close();
          c.close();
-         removeEmailSeat(); 
+         panel.removeAll();
+         AdminMap.mainMenu();
+         }  else {
+        	rs.close();
+            stmt.close();
+            c.close();
+            removeEmailSeat();
+         }
+       
       } catch (Exception e) {
          e.printStackTrace();
          System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -245,8 +252,6 @@ public static void GetAccountSeat3() {
 
 //Method to get all accounts in profile list.
 public static void GetAllAccounts()  {
-		Connection c = null;
-	    Statement stmt = null;
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -288,8 +293,7 @@ public static void GetAllAccounts()  {
 	            //Adds the array into a row.
 	            model.addRow(tableData);
 	       	 }
-	    }
-	         
+	    }        
 	         jTable.addMouseListener((MouseListener) new MouseAdapter() {
 	        	 public void mouseClicked(MouseEvent e) {
 	        		 if (e.getClickCount() == 1)  {
@@ -298,8 +302,7 @@ public static void GetAllAccounts()  {
 	        		RobinGUI.searchTB.setText((String) model.getValueAt(row, 2));
 	        		RobinGUI.searchBTN.doClick();	 
 	        		 }
-	        	 }
-	        	 
+	        	 }	 
 	         });
 	         //Sets table to equal to model. This allows headers and rows to display.
 	         //jTable = new JTable(model);
@@ -307,18 +310,14 @@ public static void GetAllAccounts()  {
 	         rs.close();
 	         stmt.close();
 	         c.close();
-	   
 	      } catch (Exception e) {
 	         e.printStackTrace();
 	         System.err.println(e.getClass().getName()+": "+e.getMessage());
 	         SwingUtilities.updateComponentTreeUI(panel);	
 	      }		
 		}
-
 	//Method to display emails in the Map list.
 	public static void GetEmailsMapList()  {
-		Connection c = null;
-	    Statement stmt = null;
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -372,8 +371,7 @@ public static void GetAllAccounts()  {
 	        		 SwingUtilities.updateComponentTreeUI(panel);	
 	        		RobinGUI.mapSearchBTN.doClick();
 	        		 }
-	        	 }
-	        	 
+	        	 }   	 
 	         });
 	         rs.close();
 	         stmt.close();
@@ -387,8 +385,6 @@ public static void GetAllAccounts()  {
 	
 	//Method to display emails in the Map list.
 		public static void GetEmailsMapList2()  {
-			Connection c = null;
-		    Statement stmt = null;
 		      try {
 		         Class.forName("org.postgresql.Driver");
 		         c = DriverManager
@@ -433,8 +429,8 @@ public static void GetAllAccounts()  {
 		        		 JTable target = (JTable)e.getSource();
 		        		 int row = target.getSelectedRow();
 		        		RobinGUI.RequestedEmail = (String) model5.getValueAt(row, 2);
-		        		System.out.println(RobinGUI.RequestedEmail);
-		        		
+		        		AdminMap.seatNumberLB(100, 75, "User selected: " + RobinGUI.RequestedEmail);
+		        		RequestPage.AdminRequestSeat = (String) model5.getValueAt(row, 4);
 		        		 }
 		        	 }        	 
 		         });
@@ -447,11 +443,9 @@ public static void GetAllAccounts()  {
 		         SwingUtilities.updateComponentTreeUI(panel);	
 		      }		
 			}
-
+	
    //Method to display seats 
    public static void GetSeatList()  {
-	Connection c = null;
-    Statement stmt = null;
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
@@ -514,8 +508,6 @@ public static void GetAllAccounts()  {
    
  //Method to display seats for the employee page
    public static void GetSeatList2()  {
-	Connection c = null;
-    Statement stmt = null;
       try {
          Class.forName("org.postgresql.Driver");
          c = DriverManager
@@ -573,11 +565,8 @@ public static void GetAllAccounts()  {
          SwingUtilities.updateComponentTreeUI(panel);	
       }		
 	}
-   
    		//Method to edit account details. 
    		public static void updateName(int id, String name, String lname, String password) {
-   			Connection c = null;
-   			Statement stmt = null;
    			try {
    				Class.forName("org.postgresql.Driver");
    				c = DriverManager
@@ -600,10 +589,7 @@ public static void GetAllAccounts()  {
    		}
 	
    		//Method to insert new data to the POSTGRES database. 
-   		public static void insertAccount(int id, String name, String lname, String email, String password) {
-   			Connection c = null;
-   			Statement stmt = null;
-    	
+   		public static void insertAccount(int id, String name, String lname, String email, String password) {	
    			try {
    				Class.forName("org.postgresql.Driver");
    				c = DriverManager
@@ -629,13 +615,9 @@ public static void GetAllAccounts()  {
    			}
    			SwingUtilities.updateComponentTreeUI(panel);	
    		}
-
-
+   		
 	//Method to edit email mapid
-	public static void updateEmailSeat() {
-
-		Connection c = null;
-		Statement stmt = null;
+	public static void updateEmailSeat(int a, String SeatID, String email ) {
 		try {
 			Class.forName("org.postgresql.Driver");
 			c = DriverManager
@@ -643,12 +625,16 @@ public static void GetAllAccounts()  {
 							"postgres", "123");
 			stmt = c.createStatement();
    
-			String query = "UPDATE ROBIN SET seat_assigned = '" + AdminMap.originalSeatID + "' WHERE email = '" + AdminMap.emailValue + "'";
+			String query = "UPDATE ROBIN SET seat_assigned = '" + SeatID + "' WHERE email = '" + email + "'";
 			//Executes Query
 			stmt.executeUpdate(query);  
 			c.close(); 
 			stmt.close();
-			updateSeatEmail();
+			if (a == 1) {
+			updateSeatEmail(1,EditProfile.employeeUsername, AdminMap.originalSeatID);
+			} else {
+				updateSeatEmail(2,RobinGUI.RequestedEmail,RequestPage.AdminRequestSeat);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -658,10 +644,8 @@ public static void GetAllAccounts()  {
 	}
 
 	//Method to edit email mapid
-	public static void  updateSeatEmail(){
-
-		Connection c = null;
-		Statement stmt = null;
+	public static void  updateSeatEmail(int a, String email, String SeatID) {
+		
 		try {
 			Class.forName("org.postgresql.Driver");
 			c = DriverManager
@@ -669,14 +653,18 @@ public static void GetAllAccounts()  {
 							"postgres", "123");
 			stmt = c.createStatement();
  
-			String query = "UPDATE seatid SET employee_name = '" + EditProfile.employeeUsername + "' WHERE seat_number = '" + AdminMap.originalSeatID + "'";
+			String query = "UPDATE seatid SET employee_name = '" + email + "' WHERE seat_number = '" + SeatID + "'";
 			//Executes Query
 			stmt.executeUpdate(query);
 			c.close(); 
 			stmt.close();
+			if ( a ==1) {
 			panel.removeAll();
 			AdminMap.mainMenu();
 			AdminMap.buttonErrorLB(400, 350, "Account updated!");
+			} else {
+				AdminMap.buttonErrorLB(400, 350, "Account updated!");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -686,8 +674,7 @@ public static void GetAllAccounts()  {
 
 	//Method to remove email seat assigned
 	public static void removeEmailSeat() {
-		Connection c = null;
-		Statement stmt = null;
+	
 		try {
 			Class.forName("org.postgresql.Driver");
 			c = DriverManager
@@ -700,18 +687,17 @@ public static void GetAllAccounts()  {
 			stmt.executeUpdate(query);  
 			c.close(); 
 			stmt.close();
-			removeSeatEmail();
+			removeSeatEmail(1, AdminMap.originalSeatID);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName()+": "+e.getMessage());
 			System.exit(0);
-		}	
+		}		
 	}
 	
-	//Method to remove Requested seat and change request.
-		public static void removeRequestedSeat() {
-			Connection c = null;
-			Statement stmt = null;
+	//Method to remove email seat assigned in Request Page
+		public static void removeEmailSeat2() {
+		
 			try {
 				Class.forName("org.postgresql.Driver");
 				c = DriverManager
@@ -719,23 +705,67 @@ public static void GetAllAccounts()  {
 								"postgres", "123");
 				stmt = c.createStatement();
 	 
-				String query = "UPDATE robin SET requested_seat = NULL, change_request = 2 WHERE email = '" + AdminMap.RequestedEmail + "';";
+				String query = "UPDATE robin SET seat_assigned = NULL WHERE seat_assigned = '" + RequestPage.AdminRequestSeat + "';";
 				//Executes Query
 				stmt.executeUpdate(query);  
 				c.close(); 
 				stmt.close();
-				removeSeatEmail();
+				removeSeatEmail(2, RequestPage.AdminRequestSeat);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println(e.getClass().getName()+": "+e.getMessage());
+				System.exit(0);
+			}		
+		}
+
+	//Method to remove Requested seat and change request.
+		public static void removeRequestedSeat(String email) {
+		
+			try {
+				Class.forName("org.postgresql.Driver");
+				c = DriverManager
+						.getConnection("jdbc:postgresql://localhost:5432/brianacosta",
+								"postgres", "123");
+				stmt = c.createStatement();
+	 
+				String query = "UPDATE robin SET requested_seat = NULL, change_request = 2 WHERE email = '" + email + "';";
+				//Executes Query
+				stmt.executeUpdate(query);  
+				c.close(); 
+				stmt.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
 				System.exit(0);
 			}	
 		}
-
-	//Method to edit email mapid
-	public static void  removeSeatEmail(){
-		Connection c = null;
-		Statement stmt = null;
+			
+		//Method to add a Requested seat and change request.
+				public static void addRequestedSeat(String email, String requestedSeat) {
+				
+					try {
+						Class.forName("org.postgresql.Driver");
+						c = DriverManager
+								.getConnection("jdbc:postgresql://localhost:5432/brianacosta",
+										"postgres", "123");
+						stmt = c.createStatement();
+			 
+						String query = "UPDATE robin SET requested_seat = '" + requestedSeat + "', change_request = 1 WHERE email = '" + email + "';";
+						//Executes Query
+						stmt.executeUpdate(query);  
+						c.close(); 
+						stmt.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.err.println(e.getClass().getName()+": "+e.getMessage());
+						System.exit(0);
+					}	
+				}
+		
+		
+	//Method to edit email seat_assigned
+	public static void  removeSeatEmail(int a,String seatNumber){
+		
 		try {
 			Class.forName("org.postgresql.Driver");
 			c = DriverManager
@@ -743,18 +773,98 @@ public static void GetAllAccounts()  {
 							"postgres", "123");
 			stmt = c.createStatement();
 
-			String query = "UPDATE seatid SET employee_name = NULL WHERE seat_number = '" + AdminMap.originalSeatID + "';";
+			String query = "UPDATE seatid SET employee_name = NULL WHERE seat_number = '" + seatNumber+ "';";
 			//Executes Query
 			stmt.executeUpdate(query);
 			c.close(); 
 			stmt.close();
+			if (a == 1) {
 			panel.removeAll();
 			AdminMap.mainMenu();
 			AdminMap.buttonErrorLB(400, 350, "Account updated!");
+			}
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
 				System.exit(0);
 			}
 		}
+	
+	//Method to edit email seat_assigned
+		public static void  removeSeatEmail2(String email){
+	
+			try {
+				Class.forName("org.postgresql.Driver");
+				c = DriverManager
+						.getConnection("jdbc:postgresql://localhost:5432/brianacosta",
+								"postgres", "123");
+				stmt = c.createStatement();
+
+				String query = "UPDATE seatid SET employee_name = NULL WHERE employee_name = '" + RobinGUI.RequestedEmail + "';";
+				//Executes Query
+				stmt.executeUpdate(query);
+				c.close(); 
+				stmt.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(e.getClass().getName()+": "+e.getMessage());
+					System.exit(0);
+				}
+			}
+	
+	//Method to get admin in the database.
+	public static void getRequestDetail()  {
+	
+		      try {
+		         Class.forName("org.postgresql.Driver");
+		         c = DriverManager
+		            .getConnection("jdbc:postgresql://localhost:5432/brianacosta",
+		            "postgres", "123");
+		         c.setAutoCommit(false);
+		         stmt = c.createStatement();
+		         String query = "SELECT change_request,requested_seat FROM Robin WHERE email = '" + EditProfile.employeeUsername + "';";
+		       //Executes Query
+		         ResultSet rs = stmt.executeQuery(query);
+		         while ( rs.next() ) {   
+		            EditProfile.changeRequestDetail = rs.getString("change_request");	
+		            EmployeeMap.empRequestSeat = rs.getString("requested_seat");
+		         }
+		         //Closes statement and connection
+		         rs.close();
+		         stmt.close();
+		         c.close();   	     
+		      } catch (Exception e) {
+		         e.printStackTrace();
+		         System.err.println(e.getClass().getName()+": "+e.getMessage());
+		         System.exit(0);
+		         SwingUtilities.updateComponentTreeUI(panel);	
+		      }		
+			}
+	
+	//Method to count rows in admin page.
+	public static void countRows()  {
+		
+		      try {
+		         Class.forName("org.postgresql.Driver");
+		         c = DriverManager
+		            .getConnection("jdbc:postgresql://localhost:5432/brianacosta",
+		            "postgres", "123");
+		         c.setAutoCommit(false);
+		         stmt = c.createStatement();
+		         String query = "SELECT COUNT (change_request) FROM robin WHERE change_request = '1';";
+		       //Executes Query
+		         ResultSet rs = stmt.executeQuery(query);
+		         while ( rs.next() ) {   
+		        	AdminMap.numberOfRequests = rs.getInt("COUNT");
+		         }  
+		         rs.close();
+		         stmt.close();
+		         c.close();
+		      } catch (Exception e) {
+		         e.printStackTrace();
+		         System.err.println(e.getClass().getName()+": "+e.getMessage());
+		         System.exit(0);
+		         SwingUtilities.updateComponentTreeUI(panel);	
+		      }		
+			}
 	}

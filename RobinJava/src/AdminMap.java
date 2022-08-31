@@ -16,6 +16,7 @@ static JLabel buttonErrorLB = new JLabel();
 static Integer employeeSeatEmpty;
 static String employeeSeatEmpty2;
 static String originalSeatID;
+static Integer numberOfRequests;
 
 	static void mainMenu() {
 		seatValue = null;

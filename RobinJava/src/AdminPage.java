@@ -1,6 +1,8 @@
 import javax.swing.SwingUtilities;
 
 public class AdminPage extends RobinGUI {
+	
+	
 
 	//Admin menu. Pages to take you to the edit/create profile pages, request page, and map page. 
 	 public static void mainMenu() {	
@@ -24,7 +26,7 @@ public class AdminPage extends RobinGUI {
 		//Admin map page.
 		adminchangeSeatBTNMethod();
 		//Request label.
-		requestLBMethod(2);
+		requestLBMethod(1);
 		SwingUtilities.updateComponentTreeUI(panel);	
 	   }
 }

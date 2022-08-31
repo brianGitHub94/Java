@@ -23,6 +23,7 @@ public class RobinGUI {
 	static JButton homeBTN = new JButton();
 	static JButton loginBTN = new JButton();
 	static JLabel requestLB = new JLabel();
+	static JLabel credentialsLB = new JLabel();
 	static JButton adminMenuBTN = new JButton();
 	static JButton employeeMenuBTN = new JButton();
 	static JButton profileBTN = new JButton();
@@ -50,6 +51,7 @@ public class RobinGUI {
 	static JButton adminEmpRequestBTN = new JButton();
 	static JButton adminCancelEmpRequestBTN = new JButton();
 	static String RequestedEmail;
+	
 	public RobinGUI() {
 	//Setting the size of the window when it opens.
 	frame.setSize(900,650);
@@ -75,7 +77,7 @@ public class RobinGUI {
 	//Logs the user in to either the employee or admin page.
 	loginBTN.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			SQLScripts.sqlConnection(usernameTB.getText());
+			SQLScripts.sqlLogin(usernameTB.getText());
 		}
 	});
 	//Takes admin back to the admin menu.
@@ -92,7 +94,7 @@ public class RobinGUI {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel.removeAll();
-			SQLScripts.sqlConnection(EditProfile.employeeUsername);
+			SQLScripts.sqlLogin(EditProfile.employeeUsername);
 			employeePage.mainMenu();
 		}
 	});
@@ -208,7 +210,7 @@ public class RobinGUI {
 							AdminMap.buttonErrorLB(280, 320, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-							AdminMap.buttonErrorLB(380, 320, "Please select a seat.");
+							AdminMap.buttonErrorLB(400, 320, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
 						panel.removeAll();
@@ -231,7 +233,7 @@ public class RobinGUI {
 				removeSeatBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-							AdminMap.buttonErrorLB(380, 320, "Please select a seat.");
+							AdminMap.buttonErrorLB(400, 320, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatValue == null) {
 						panel.removeAll();
@@ -243,7 +245,7 @@ public class RobinGUI {
 						AdminMap.seatValue = null;
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue != null) {
-						SQLScripts.GetAccountSeat3();
+						SQLScripts.GetAccountSeat3(AdminMap.originalSeatID);
 					} 	 
 				}
 			});	
@@ -253,42 +255,64 @@ public class RobinGUI {
 				empRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-						 	System.out.println("hi");
+						 AdminMap.buttonErrorLB(335,490,"Please select a seat before requesting a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
-						} 
-						SwingUtilities.updateComponentTreeUI(panel);	
+						} else {
+						SQLScripts.addRequestedSeat(EditProfile.employeeUsername, EmployeeMap.employeeSeatNumber);
+						panel.removeAll();
+						EmployeeMap.mainMenu();
+						}
 					}	
 			});			
 				//Cancel request button for user in employee map page
 				cancelEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-						 	System.out.println("hi");
-							SwingUtilities.updateComponentTreeUI(panel);	
-						} 
-						SwingUtilities.updateComponentTreeUI(panel);	
+					 if (EditProfile.changeRequestDetail.equals("2")) {
+						 AdminMap.buttonErrorLB(335,490,"Cancel request failed. No request active.");
+						 SwingUtilities.updateComponentTreeUI(panel);
+						} else {
+					 SQLScripts.removeRequestedSeat(EditProfile.employeeUsername);	
+					 panel.removeAll();
+					 EmployeeMap.mainMenu();
+					 AdminMap.buttonErrorLB(375,490,"Request cancelled successfully!");
+						}
 					}	
 			});	
 				
 				//Approve button for admin in Admin request page
 				adminEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) { 
-						 	System.out.println("hi");
-							SwingUtilities.updateComponentTreeUI(panel);	
+						if (RequestedEmail == null) {
+							AdminMap.buttonErrorLB(400,490,"Please select a user.");
+							SwingUtilities.updateComponentTreeUI(panel);
+						} else {	
+						//Remove current employee if there's any. 
+						SQLScripts.removeEmailSeat2();
+						SQLScripts.removeSeatEmail2(RobinGUI.RequestedEmail);
+						//Update new employee to new seat.
+						SQLScripts.updateEmailSeat(2,RequestPage.AdminRequestSeat,RobinGUI.RequestedEmail);
+						SQLScripts.removeRequestedSeat(AdminMap.RequestedEmail);
+						panel.removeAll();
+						RequestedEmail = null;
+						AdminMap.buttonErrorLB(375,490,"Request approved successfully!");
+						RequestPage.mainMenu();
 						SwingUtilities.updateComponentTreeUI(panel);	
-					}	
+						}
+					}
 			});			
 				//Deny request button for admin in Admin request page
 				adminCancelEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e)  {
 						if (RequestedEmail == null) {
-							
+							AdminMap.buttonErrorLB(400,490,"Please select a user.");
 							SwingUtilities.updateComponentTreeUI(panel);
 						} else {
-							SQLScripts.removeRequestedSeat();
+							SQLScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 							panel.removeAll();
 							RequestedEmail = null;
-							RequestPage.mainMenu();			
+							AdminMap.buttonErrorLB(375,490,"Request denied successfully!");
+							RequestPage.mainMenu();	
+							
 						}
 						
 							
@@ -391,9 +415,16 @@ public class RobinGUI {
 	//Method that displays the welcome label
 	static void getWelcomeLB()  {
 		welcomeLB.setText("Welcome " + EditProfile.employeeName);
+		welcomeLB.setBounds(400,320,250,30);
 		panel.add(welcomeLB);
-		welcomeLB.setBounds(420,320,250,30);
 	
+	}
+	
+	static void getWrongCredentials() {
+		credentialsLB.setText("Wrong credentials. Please try again!");
+		credentialsLB.setBounds(340,250,250,30);
+		panel.add(credentialsLB);
+		SwingUtilities.updateComponentTreeUI(panel);
 	}
 	
 	//Get accoount not found label 
@@ -407,10 +438,17 @@ public class RobinGUI {
 		public static void requestLBMethod(int i) {
 			if (i == 1) {
 			requestLB.setBounds(50, 50, 200, 50);
-			requestLB.setText("Number of requests: 0");
+			SQLScripts.countRows();
+			requestLB.setText("Number of requests: " + AdminMap.numberOfRequests);
 			} else if (i == 2) {
 				requestLB.setBounds(370, 100, 200, 50);
+				if (EditProfile.changeRequestDetail.equals("1")) {
+					requestLB.setBounds(370, 100, 200, 50);
 				requestLB.setText("Approval status: Pending");
+				} else {
+					requestLB.setBounds(400, 100, 200, 50);
+					requestLB.setText("No request active");
+				}
 			}
 			panel.add(requestLB);
 			SwingUtilities.updateComponentTreeUI(panel);			

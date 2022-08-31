@@ -13,6 +13,7 @@ public class employeePage extends RobinGUI{
 			profileBTNMethod();
 			//Button that takes you to the map menu.
 			changeSeatBTNMethod();
+			SQLScripts.getRequestDetail();
 			//Request label for user.
 			requestLBMethod(2);
 			SwingUtilities.updateComponentTreeUI(panel);	

@@ -7,6 +7,7 @@ public class EditProfile extends RobinGUI{
 	static String employeePassword;
 	static String employeeUsername;
 	static int employeeID;
+	static String changeRequestDetail;
 	
 	static void mainMenu(int profile) {
 		//Title label

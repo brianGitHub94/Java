@@ -51,7 +51,7 @@ public class RobinGUI {
 	
 	public RobinGUI() {
 	//Setting the size of the window when it opens.
-	frame.setSize(900,650);
+	frame.setSize(1100,700);
 	//Default close operation.
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//To set a title which will be displayed out the top center of the window.
@@ -154,7 +154,7 @@ public class RobinGUI {
 			ProfileList.mainMenu();
 		}
 	});
-		//Takes user back to the Admin profile list menu from employee Page. (Admin page/Employee Page)
+				//Takes user back to the Admin profile list menu from employee Page. (Admin page/Employee Page)
 				adminProfileListBTN.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -177,14 +177,14 @@ public class RobinGUI {
 			public void actionPerformed(ActionEvent e) {
 				if (fNameTB.getText().equals("") || lNameTB.getText().equals("") || usernameTB.getText().equals("") || passwordTB.getText().equals("")){
 				panel.removeAll();
-				getFeedbackLB(380, 325, "Account details cannot be empty");
+				getFeedbackLB(460, 325, "Account details cannot be empty");
 				 CreateEditProfile.mainMenu();
 				} else {
 					SQLUpdateInsert.insertAccount(0, fNameTB.getText(), lNameTB.getText(), usernameTB.getText(), passwordTB.getText());
 				}
 			}
 		});			
-		//Logs the user in to either the employee or admin page.
+		//Searches user email to see if the account exists in the profile list page.
 		searchBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			SQLSelectScripts.sqlAdmin(searchTB.getText());
@@ -204,38 +204,41 @@ public class RobinGUI {
 						if (AdminMap.emailValue == null) {
 							panel.removeAll();
 							AdminMap.mainMenu();
-							getFeedbackLB(280, 320, "Please select a current employee from list before assigning.");
+							getFeedbackLB(380, 600, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (seatNumberLB.getText() == "Please select a seat number: ") {
-							getFeedbackLB(400, 320, "Please select a seat.");
+							getFeedbackLB(500, 600, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
 						panel.removeAll();
 						AdminMap.mainMenu();
-						getFeedbackLB(350, 320, "Please empty seat before assigning.");
+						getFeedbackLB(450, 600, "Please empty seat before assigning.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
 						AdminMap.seatValue = null;
+						AdminMap.counter = 0;
+						panel.removeAll();
+						AdminMap.mainMenu();
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue == null && AdminMap.employeeAssigned == null) {
 						SQLSelectScripts.CheckEmpSeatStatus();
 					} else {
-						AdminMap.getFeedbackLB(280, 320, "Please remove employee from assigned seat before assigning.");
+						AdminMap.getFeedbackLB(380, 600, "Please remove employee from assigned seat before assigning.");
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}
 					}
 			});			
-				//Searches user in the admin map.
+				//Removes user in the admin map.
 				removeSeatBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-							getFeedbackLB(400, 320, "Please select a seat.");
+							getFeedbackLB(500, 600, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatValue == null) {
 						panel.removeAll();
 						AdminMap.mainMenu();
-						getFeedbackLB(390, 320, "Seat is already empty.");
+						getFeedbackLB(490, 600, "Seat is already empty.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
@@ -251,7 +254,7 @@ public class RobinGUI {
 				empRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-						 getFeedbackLB(335,490,"Please select a seat before requesting a seat.");
+						 getFeedbackLB(435,490,"Please select a seat before requesting a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else {
 						SQLUpdateInsert.addRequestedSeat(EditProfile.employeeUsername, EmployeeMap.employeeSeatNumber);
@@ -264,13 +267,13 @@ public class RobinGUI {
 				cancelEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (EditProfile.changeRequestDetail.equals("2")) {
-						 getFeedbackLB(335,490,"Cancel request failed. No request active.");
+						 getFeedbackLB(435,490,"Cancel request failed. No request active.");
 						 SwingUtilities.updateComponentTreeUI(panel);
 						} else {
 					 SQLRemoveScripts.removeRequestedSeat(EditProfile.employeeUsername);	
 					 panel.removeAll();
 					 EmployeeMap.mainMenu();
-					 getFeedbackLB(375,490,"Request cancelled successfully!");
+					 getFeedbackLB(475,490,"Request cancelled successfully!");
 						}
 					}	
 			});	
@@ -279,7 +282,7 @@ public class RobinGUI {
 				adminEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) { 
 						if (AdminMap.RequestedEmail == null) {
-							getFeedbackLB(400,490,"Please select a user.");
+							getFeedbackLB(580,490,"Please select a user.");
 							SwingUtilities.updateComponentTreeUI(panel);
 						} else {	
 						//Remove current employee if there's any. 
@@ -290,7 +293,7 @@ public class RobinGUI {
 						SQLRemoveScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 						panel.removeAll();
 						AdminMap.RequestedEmail = null;
-						getFeedbackLB(375,490,"Request approved successfully!");
+						getFeedbackLB(450,490,"Request approved successfully!");
 						RequestPage.mainMenu();
 						SwingUtilities.updateComponentTreeUI(panel);	
 						}
@@ -306,7 +309,7 @@ public class RobinGUI {
 							SQLRemoveScripts.removeRequestedSeat(AdminMap.RequestedEmail);
 							panel.removeAll();
 							AdminMap.RequestedEmail = null;
-							getFeedbackLB(375,490,"Request denied successfully!");
+							getFeedbackLB(450,490,"Request denied successfully!");
 							RequestPage.mainMenu();							
 						}				
 					}	
@@ -391,7 +394,7 @@ public class RobinGUI {
 	//Method that displays the welcome label
 	static void getWelcomeLB()  {
 		welcomeLB.setText("Welcome " + EditProfile.employeeName);
-		welcomeLB.setBounds(400,320,250,30);
+		welcomeLB.setBounds(500,320,250,30);
 		panel.add(welcomeLB);
 	
 	}
@@ -417,10 +420,10 @@ public class RobinGUI {
 			} else if (i == 2) {
 				requestLB.setBounds(370, 100, 200, 50);
 				if (EditProfile.changeRequestDetail.equals("1")) {
-					requestLB.setBounds(370, 100, 200, 50);
+					requestLB.setBounds(470, 100, 200, 50);
 				requestLB.setText("Approval status: Pending");
 				} else {
-					requestLB.setBounds(400, 100, 200, 50);
+					requestLB.setBounds(490, 100, 200, 50);
 					requestLB.setText("No request active");
 				}
 			}
@@ -432,14 +435,14 @@ public class RobinGUI {
 	
 	//Home back button
 	public static void homebackBTN() {
-		homeBTN.setBounds(50, 500, 100, 40);
+		homeBTN.setBounds(50, 550, 100, 40);
 		homeBTN.setText("back");
 		panel.add(homeBTN);
 		SwingUtilities.updateComponentTreeUI(panel);
 	}
 		//Button that logs the user into the admin or employee page.
 	public static void loginBTN() {
-		loginBTN.setBounds(400, 200, 100, 40);
+		loginBTN.setBounds(500, 200, 100, 40);
 		loginBTN.setText("login");
 		panel.add(loginBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
@@ -447,7 +450,7 @@ public class RobinGUI {
 	
 	//Button that takes you back to the admin menu
 	public static void adminMenuBTN(int x) {
-		adminMenuBTN.setBounds(x, 500, 100, 40);
+		adminMenuBTN.setBounds(x, 550, 100, 40);
 		adminMenuBTN.setText("back");
 		panel.add(adminMenuBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
@@ -455,7 +458,7 @@ public class RobinGUI {
 	}
 	// Button that takes you back to the employee menu
 	public static void employeeMenuBTN() {
-		employeeMenuBTN.setBounds(50, 500, 100, 40);
+		employeeMenuBTN.setBounds(50, 550, 100, 40);
 		employeeMenuBTN.setText("back");
 		panel.add(employeeMenuBTN);
 		SwingUtilities.updateComponentTreeUI(panel);		
@@ -464,14 +467,14 @@ public class RobinGUI {
 	//Employee Page specific buttons 
 	//Button that takes you to the employee edit profile page 
 	public static void profileBTNMethod() {
-		profileBTN.setBounds(200, 200, 250, 50);
+		profileBTN.setBounds(300, 200, 250, 50);
 		profileBTN.setText("Edit profiles");
 		panel.add(profileBTN);
 	SwingUtilities.updateComponentTreeUI(panel);		
 }
 	//Button that takes you to the employee change seat page 
 	public static void changeSeatBTNMethod() {
-	changeSeatBTN.setBounds(450, 200, 250, 50);
+	changeSeatBTN.setBounds(550, 200, 250, 50);
 	changeSeatBTN.setText("Change seat");
 	panel.add(changeSeatBTN);
 	SwingUtilities.updateComponentTreeUI(panel);		
@@ -480,7 +483,7 @@ public class RobinGUI {
 	//Admin specific buttons
 	//A button that takes you to the admin profile page
 	public static void adminprofileBTNMethod() {
-	 adminprofileBTN.setBounds(350, 200, 175, 40);
+	 adminprofileBTN.setBounds(450, 200, 175, 40);
 	 adminprofileBTN.setText("Create and edit profiles");
 		panel.add(adminprofileBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
@@ -488,7 +491,7 @@ public class RobinGUI {
 	}
 	//A button that takes you to the admin Change seat page
 	public static void adminchangeSeatBTNMethod() {
-		adminchangeSeatBTN.setBounds(550, 200, 200, 40);
+		adminchangeSeatBTN.setBounds(650, 200, 200, 40);
 		adminchangeSeatBTN.setText("View map and Change seats");	
 		panel.add(adminchangeSeatBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
@@ -496,7 +499,7 @@ public class RobinGUI {
 	}
 	//A button that takes you to the admin request page
 	public static void adminrequestBTNMethod() {
-		adminrequestBTN.setBounds(150, 200, 175, 40);
+		adminrequestBTN.setBounds(250, 200, 175, 40);
 		adminrequestBTN.setText("View requests");
 		panel.add(adminrequestBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
@@ -504,14 +507,14 @@ public class RobinGUI {
 	
 	//Edit button for the employee edit page
 	public static void editBTNMethod() {
-		insertBTN.setBounds(375, 275, 200, 40);
+		insertBTN.setBounds(475, 275, 200, 40);
 		insertBTN.setText("Complete edit");
 		panel.add(insertBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
 	}
 	//Button that takes you back to the profile page
 	public static void backProfileBTN () {
-		backProfileBTN.setBounds(50, 500, 100, 40);
+		backProfileBTN.setBounds(50, 550, 100, 40);
 		backProfileBTN.setText("back");
 		panel.add(backProfileBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
@@ -526,7 +529,7 @@ public class RobinGUI {
 	
 	//Button that takes you to the create profile page
 	 public static void createMenuBTN() {
-	 	createMenuBTN.setBounds(680, 50, 200, 40);
+	 	createMenuBTN.setBounds(780, 50, 200, 40);
 	 	createMenuBTN.setText("Create profile");
 		panel.add(createMenuBTN);
 		SwingUtilities.updateComponentTreeUI(panel);			
@@ -534,7 +537,7 @@ public class RobinGUI {
 
 	 //Buton that insert a new account to the database
 	 public static void createBTN() {
-			createBTN.setBounds(375, 275, 200, 40);
+			createBTN.setBounds(460, 275, 200, 40);
 			createBTN.setText("Create account");
 			panel.add(createBTN);
 			SwingUtilities.updateComponentTreeUI(panel);	
@@ -542,7 +545,7 @@ public class RobinGUI {
 	 
 	 //Buton that insert a new account to the database
 	 public static void searchBTN() {
-			searchBTN.setBounds(680, 500, 200, 40);
+			searchBTN.setBounds(780, 550, 200, 40);
 			searchBTN.setText("search account");
 			panel.add(searchBTN);
 			SwingUtilities.updateComponentTreeUI(panel);	
@@ -550,7 +553,7 @@ public class RobinGUI {
 	 
 	//Buton that insert a new account to the database
 		 public static void mapSearchBTN() {
-				mapSearchBTN.setBounds(260, 350, 60, 40);
+				mapSearchBTN.setBounds(930, 50, 60, 40);
 				mapSearchBTN.setText("Search");
 				panel.add(mapSearchBTN);
 				SwingUtilities.updateComponentTreeUI(panel);	
@@ -558,28 +561,28 @@ public class RobinGUI {
 	 
 	 //Buton that insert a new account to the database
 	 public static void nextRoomBTN() {
-			nextRoomBTN.setBounds(350, 450, 125, 40);
+			nextRoomBTN.setBounds(350, 550, 125, 40);
 			nextRoomBTN.setText("Previous Room");
 			panel.add(nextRoomBTN);
 			SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 
 	 public static void previousRoomBTN() {
-		 previousRoomBTN.setBounds(475, 450, 100, 40);
+		 previousRoomBTN.setBounds(475, 550, 100, 40);
 		 previousRoomBTN.setText("Next Room");
 		 panel.add(previousRoomBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 	
 	 public static void assignSeatBTN() {
-		 assignSeatBTN.setBounds(475, 400, 100, 40);
+		 assignSeatBTN.setBounds(575, 550, 100, 40);
 		 assignSeatBTN.setText("Assign seat");
 		 panel.add(assignSeatBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 
 	 public static void removeSeatBTN() {
-		 removeSeatBTN.setBounds(350, 400, 125, 40);
+		 removeSeatBTN.setBounds(675, 550, 125, 40);
 		 removeSeatBTN.setText("Remove Seat");
 		 panel.add(removeSeatBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
@@ -587,28 +590,28 @@ public class RobinGUI {
 	 
 	 
 	 public static void empRequestBTN() {
-		 empRequestBTN.setBounds(475, 450, 170, 40);
+		 empRequestBTN.setBounds(575, 450, 170, 40);
 		 empRequestBTN.setText("Request seat change");
 		 panel.add(empRequestBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 
 	 public static void cancelEmpRequestBTN() {
-		 cancelEmpRequestBTN.setBounds(300, 450, 170, 40);
+		 cancelEmpRequestBTN.setBounds(400, 450, 170, 40);
 		 cancelEmpRequestBTN.setText("cancel request");
 		 panel.add(cancelEmpRequestBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 
 	 public static void adminEmpRequestBTN() {
-		 adminEmpRequestBTN.setBounds(455, 450, 170, 40);
+		 adminEmpRequestBTN.setBounds(555, 450, 170, 40);
 		 adminEmpRequestBTN.setText("Approve Request");
 		 panel.add(adminEmpRequestBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 
 	 public static void adminCancelEmpRequestBTN() {
-		 adminCancelEmpRequestBTN.setBounds(280, 450, 170, 40);
+		 adminCancelEmpRequestBTN.setBounds(380, 450, 170, 40);
 		 adminCancelEmpRequestBTN.setText("Deny Request");
 		 panel.add(adminCancelEmpRequestBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	

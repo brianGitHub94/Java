@@ -22,7 +22,7 @@ public class SQLRemoveScripts extends RobinGUI {
 				if (a == 1) {
 				panel.removeAll();
 				AdminMap.mainMenu();
-				getFeedbackLB(400, 350, "Account updated!");
+				getFeedbackLB(500, 600, "Account updated!");
 				}
 				} catch (Exception e) {
 					e.printStackTrace();

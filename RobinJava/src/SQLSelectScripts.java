@@ -41,7 +41,7 @@ public class SQLSelectScripts extends RobinGUI{
 	        	   panel.removeAll();
 	        	   AdminPage.mainMenu();
 	           }  else {
-	        	   getFeedbackLB(340,250,"Wrong credentials. Please try again!");
+	        	   getFeedbackLB(450,250,"Wrong credentials. Please try again!");
 	        	   SwingUtilities.updateComponentTreeUI(panel);
 	           }
 	             
@@ -53,7 +53,7 @@ public class SQLSelectScripts extends RobinGUI{
 	      }		
 		}
 
-   //Method to get admin in the database.
+  //Searches user email to see if the account exists in the profile list page.
    public static void sqlAdmin(String username)  {
 	      try {
 	         Class.forName("org.postgresql.Driver");
@@ -80,7 +80,7 @@ public class SQLSelectScripts extends RobinGUI{
 	         if (RobinGUI.searchTB.getText().equals("brian") || RobinGUI.searchTB.getText().equals("") || !RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
 	        	 panel.removeAll();
 	        	 ProfileList.mainMenu();
-	        	 getFeedbackLB(515, 475, "Account not found");
+	        	 getFeedbackLB(615, 525, "Account not found");
 	         }
 	         else if (RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
 	        	 panel.removeAll();

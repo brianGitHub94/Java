@@ -15,15 +15,15 @@ public class EditProfile extends RobinGUI{
 	
 	static void mainMenu(int profile) {
 		//Title label
-		getTitle(430,"Edit Menu");
+		getTitle(520,"Edit Menu");
 		//TextBox and Labels GUI
-		getUserLB(235,100,"Username:              " + employeeUsername);
-		getSecondLB(235,140,"Insert Password: " );
-		getPassTB(350,140,employeePassword);
-		getThirdLB(235,180,"Insert first Name: ");
-		getFnameTB(350,180,employeeName);
-		getLnameLB(235,220,"Insert Last Name: ");
-		getLnameTB(350,220,employeeLName);	
+		getUserLB(335,100,"Username:              " + employeeUsername);
+		getSecondLB(335,140,"Insert Password: " );
+		getPassTB(450,140,employeePassword);
+		getThirdLB(335,180,"Insert first Name: ");
+		getFnameTB(450,180,employeeName);
+		getLnameLB(335,220,"Insert Last Name: ");
+		getLnameTB(450,220,employeeLName);	
 		//Create button 
 		editBTNMethod();
 		/*If profile equals 1 the back button will take user back to employee page

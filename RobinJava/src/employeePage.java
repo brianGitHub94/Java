@@ -4,7 +4,7 @@ public class employeePage extends RobinGUI{
 	
 	static void mainMenu() {
 		    //Title label
-			getTitle(400,"Employee Menu");
+			getTitle(495,"Employee Menu");
 			//Welcome label. Displays employee's name.
 			getWelcomeLB();
 			//Button to log out.

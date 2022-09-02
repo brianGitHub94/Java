@@ -21,7 +21,7 @@ public class SQLUpdateInsert extends RobinGUI{
 				stmt.executeUpdate(query);
 				c.close();
 				stmt.close();
-				getFeedbackLB(400, 320, "Account details updated.");
+				getFeedbackLB(490, 320, "Account details updated.");
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -46,13 +46,13 @@ public class SQLUpdateInsert extends RobinGUI{
 				c.close();
 				stmt.close();
 				panel.removeAll();
-				getFeedbackLB(430,325,"Insert complete");
+				getFeedbackLB(515,325,"Insert complete");
 				CreateEditProfile.mainMenu();
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.err.println(e.getClass().getName()+": "+e.getMessage());
 					panel.removeAll();
-					getFeedbackLB(380, 325, "Email address already exist");
+					getFeedbackLB(475, 325, "Email address already exist");
 					CreateEditProfile.mainMenu();
 			}
 			SwingUtilities.updateComponentTreeUI(panel);	
@@ -99,7 +99,7 @@ public class SQLUpdateInsert extends RobinGUI{
 		stmt.close();
 		if ( a ==1) {
 		panel.removeAll();
-		getFeedbackLB(400, 350, "Account updated!");
+		getFeedbackLB(500, 600, "Account updated!");
 		AdminMap.counter = 0;
 		AdminMap.emailValue = null;
 		AdminMap.employeeAssigned = null;

@@ -13,7 +13,7 @@ public class AdminPage extends RobinGUI {
 		 //Resets requested email value
 		 AdminMap.RequestedEmail = null;
 		//Title label
-		getTitle(400,"Admin Menu");
+		getTitle(500,"Admin Menu");
 		//Log out button.
 		homebackBTN();
 		//Admin request page.

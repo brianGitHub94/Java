@@ -32,16 +32,17 @@ static String seatnull;
 	static void mainMenu() {
 		seatValue = null;
 		//Title label
-		getTitle(420,"MAIN ROOM");
+		getTitle(510,"MAIN ROOM");
 		//Button that takes admin to the main menu.
 		adminMenuBTN(50);
-		getSearchTB(100, 350, null);
+		getSearchTB(780, 50, null);
+		getLnameLB(630,60,"Search for an employee");
 		mapSearchBTN();
 		previousRoomBTN();
 		nextRoomBTN();
 		assignSeatBTN();
 		removeSeatBTN();
-		seatNumberLB(500,300 ,"Please select a seat number: ");
+		seatNumberLB(600,300 ,"Please select a seat number: ");
 		SQLTableScripts.GetEmailsMapList();
 		SQLTableScripts.GetSeatList();
 		if ((counter == 0)) {

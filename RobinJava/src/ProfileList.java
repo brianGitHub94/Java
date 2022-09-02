@@ -5,17 +5,17 @@ public class ProfileList extends RobinGUI {
 	 static void mainMenu() {
 		    //Title label
 		 	SQLTableScripts.DisplayAllAccounts();
-		    RobinGUI.getTitle(400,"Profile Menu");
+		    RobinGUI.getTitle(500,"Profile Menu");
 		    //Label for search text box.
-		    RobinGUI.getUserLB(405, 505, "Insert email: ");
+		    RobinGUI.getUserLB(505, 560, "Insert email: ");
 		    //Shows select account text
-		    getThirdLB(400, 400,"Select an Account: ");
+		    getThirdLB(500, 400,"Select an Account: ");
 		    //Textbox
-		    RobinGUI.getSearchTB(500, 500, null);
+		    RobinGUI.getSearchTB(600, 550, null);
 		    //Takes you to the create profile page in admin account
 		    RobinGUI.createMenuBTN();
 			//Button to take you back to admin menu.
-		    RobinGUI.adminMenuBTN(50);
+		    RobinGUI.adminMenuBTN(100);
 		    // Search button to search for account.
 		    RobinGUI.searchBTN();	    
 		    SwingUtilities.updateComponentTreeUI(RobinGUI.panel);			

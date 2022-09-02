@@ -35,7 +35,7 @@ public class SQLTableScripts extends RobinGUI {
 		        	 };
 		           };
 		           JScrollPane jScrollPane = new JScrollPane(jTable);
-		           jScrollPane.setBounds(175, 100, 550, 300);
+		           jScrollPane.setBounds(275, 100, 550, 300);
 		           RobinGUI.panel.add(jScrollPane);
 		         //Used for inserting rows and columns. 
 		         DefaultTableModel model = (DefaultTableModel) jTable.getModel();
@@ -101,7 +101,7 @@ public class SQLTableScripts extends RobinGUI {
 		        	 };
 		           };
 		           JScrollPane jScrollPane = new JScrollPane(jTable2);
-		           jScrollPane.setBounds(100, 100, 300, 200);
+		           jScrollPane.setBounds(100, 100, 400, 200);
 		           RobinGUI.panel.add(jScrollPane);
 		         //Used for inserting rows and columns. 
 		         DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
@@ -163,7 +163,7 @@ public class SQLTableScripts extends RobinGUI {
 			        	 };
 			           };
 			           JScrollPane jScrollPane = new JScrollPane(jTable5);
-			           jScrollPane.setBounds(100, 100, 700, 300);
+			           jScrollPane.setBounds(200, 100, 700, 300);
 			           RobinGUI.panel.add(jScrollPane);
 			         //Used for inserting rows and columns. 
 			         DefaultTableModel model5 = (DefaultTableModel) jTable5.getModel();
@@ -190,7 +190,7 @@ public class SQLTableScripts extends RobinGUI {
 			        		 JTable target = (JTable)e.getSource();
 			        		 int row = target.getSelectedRow();
 			        		 AdminMap.RequestedEmail = (String) model5.getValueAt(row, 2);
-			        		AdminMap.seatNumberLB(100, 75, "User selected: " + AdminMap.RequestedEmail);
+			        		AdminMap.seatNumberLB(200, 75, "User selected: " + AdminMap.RequestedEmail);
 			        		RequestPage.AdminRequestSeat = (String) model5.getValueAt(row, 4);
 			        		 }
 			        	 }        	 
@@ -224,7 +224,7 @@ public class SQLTableScripts extends RobinGUI {
 						};
 					};
 			        JScrollPane jScrollPane = new JScrollPane(jTable3);
-			        jScrollPane.setBounds(500, 100, 300, 200);
+			        jScrollPane.setBounds(600, 100, 400, 200);
 			        RobinGUI.panel.add(jScrollPane);
 			        //Used for inserting rows and columns. 
 			        DefaultTableModel model3 = (DefaultTableModel) jTable3.getModel();
@@ -265,7 +265,7 @@ public class SQLTableScripts extends RobinGUI {
 		      }		
 		}
 	   
-	   //Method to display seats for the employee page.
+	   //Method to display seats for the employee map page.
 	   public static void GetSeatList2()  {
 	      try {
 	         Class.forName("org.postgresql.Driver");
@@ -285,7 +285,7 @@ public class SQLTableScripts extends RobinGUI {
 	        	 };
 	           };
 	           JScrollPane jScrollPane = new JScrollPane(jTable4);
-	           jScrollPane.setBounds(200, 100, 500, 300);
+	           jScrollPane.setBounds(300, 100, 500, 300);
 	           RobinGUI.panel.add(jScrollPane);
 	         //Used for inserting rows and columns. 
 	         DefaultTableModel model4 = (DefaultTableModel) jTable4.getModel();

@@ -6,12 +6,12 @@ import javax.swing.SwingUtilities;
 
 		static void mainMenu() {		
 		//Title label
-	    getTitle(400,"Request Page");
+	    getTitle(500,"Request Page");
 	    adminMenuBTN(50);	
 	    adminEmpRequestBTN();
 	    adminCancelEmpRequestBTN();
 	    SQLTableScripts.GetRequestList();
-	    AdminMap.seatNumberLB(100, 75, "Please select a user: ");
+	    AdminMap.seatNumberLB(200, 75, "Please select a user: ");
 		SwingUtilities.updateComponentTreeUI(panel);	
 	}
 }

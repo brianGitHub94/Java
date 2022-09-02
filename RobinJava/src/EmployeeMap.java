@@ -8,17 +8,17 @@ public class EmployeeMap extends RobinGUI{
 
 	static void mainMenu() {	
 		//Title label
-		getTitle(400,"Map menu");
+		getTitle(500,"Map menu");
 	    employeeMenuBTN();	
 	    SQLTableScripts.GetSeatList2();
-		RobinGUI.getUserLB(390, 400, "User: " + EditProfile.employeeUsername);
-		AdminMap.seatNumberLB(200, 75, "Please select a seat number: ");
+		RobinGUI.getUserLB(440, 400, "User: " + EditProfile.employeeUsername);
+		AdminMap.seatNumberLB(300, 75, "Please select a seat number: ");
 		SQLSelectScripts.getRequestDetail();
 		empRequestBTN();
 		cancelEmpRequestBTN();
 		 if (EditProfile.changeRequestDetail.equals("1") ) {
-			 getFeedbackLB(315,490,"Please cancel request before requesting a new seat.");
-			 getSecondLB(580,75,"Requested seat: " + empRequestSeat);
+			 getFeedbackLB(415,490,"Please cancel request before requesting a new seat.");
+			 getSecondLB(680,75,"Requested seat: " + empRequestSeat);
 			 empRequestBTN.setEnabled(false);
 			 SwingUtilities.updateComponentTreeUI(panel);	
 			} else {

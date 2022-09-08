@@ -21,8 +21,11 @@ public class SQLRemoveScripts extends RobinGUI {
 				stmt.close();
 				if (a == 1) {
 				panel.removeAll();
-				AdminMap.mainMenu();
+				AdminMap.getRoom();
 				getFeedbackLB(500, 600, "Account updated!");
+				AdminMap.emailValue = null;
+				AdminMap.employeeAssigned = null;
+				AdminMap.seatValue = null;
 				}
 				} catch (Exception e) {
 					e.printStackTrace();

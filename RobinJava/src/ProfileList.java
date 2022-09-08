@@ -5,9 +5,9 @@ public class ProfileList extends RobinGUI {
 	 static void mainMenu() {
 		    //Title label
 		 	SQLTableScripts.DisplayAllAccounts();
-		    RobinGUI.getTitle(500,"Profile Menu");
+		    RobinGUI.getTitle(470,"Profile Menu");
 		    //Label for search text box.
-		    RobinGUI.getUserLB(505, 560, "Insert email: ");
+		    RobinGUI.getUserLB(505, 560, "Search email: ");
 		    //Shows select account text
 		    getThirdLB(500, 400,"Select an Account: ");
 		    //Textbox

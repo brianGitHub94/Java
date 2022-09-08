@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -48,6 +50,8 @@ public class RobinGUI {
 	static JButton adminEmpRequestBTN = new JButton();
 	static JButton adminCancelEmpRequestBTN = new JButton();
 	static JLabel seatNumberLB = new JLabel();
+	static JButton empNextRoomBTN = new JButton();
+	static JButton empPreviousRoomBTN = new JButton();
 	
 	public RobinGUI() {
 	//Setting the size of the window when it opens.
@@ -74,7 +78,12 @@ public class RobinGUI {
 	//Logs the user in to either the employee or admin page.
 	loginBTN.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			SQLSelectScripts.sqlLogin(usernameTB.getText());
+			if (RobinGUI.usernameTB.getText().equals("") || (RobinGUI.passwordTB.getText().equals(""))) {
+				RobinGUI.getFeedbackLB(420,250,"Please insert email and password credentials.");
+				SwingUtilities.updateComponentTreeUI(panel);
+			} else {
+				SQLSelectScripts.sqlLogin(usernameTB.getText());
+			}
 		}
 	});
 	//Takes admin back to the admin menu.
@@ -187,8 +196,13 @@ public class RobinGUI {
 		//Searches user email to see if the account exists in the profile list page.
 		searchBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			SQLSelectScripts.sqlAdmin(searchTB.getText());
 				
+				if (RobinGUI.searchTB.getText().equals("")) {
+				getFeedbackLB(590, 525, "Please enter email address");
+				SwingUtilities.updateComponentTreeUI(panel);
+			} else {
+				SQLSelectScripts.sqlAdmin(searchTB.getText());
+			}	
 			}
 		});
 		
@@ -203,7 +217,7 @@ public class RobinGUI {
 					public void actionPerformed(ActionEvent e) {
 						if (AdminMap.emailValue == null) {
 							panel.removeAll();
-							AdminMap.mainMenu();
+							AdminMap.getRoom();
 							getFeedbackLB(380, 600, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (seatNumberLB.getText() == "Please select a seat number: ") {
@@ -211,15 +225,14 @@ public class RobinGUI {
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
 						panel.removeAll();
-						AdminMap.mainMenu();
+						AdminMap.getRoom();
 						getFeedbackLB(450, 600, "Please empty seat before assigning.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
 						AdminMap.seatValue = null;
-						AdminMap.counter = 0;
 						panel.removeAll();
-						AdminMap.mainMenu();
+						AdminMap.getRoom();
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue == null && AdminMap.employeeAssigned == null) {
 						SQLSelectScripts.CheckEmpSeatStatus();
@@ -237,7 +250,7 @@ public class RobinGUI {
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatValue == null) {
 						panel.removeAll();
-						AdminMap.mainMenu();
+						AdminMap.getRoom();
 						getFeedbackLB(490, 600, "Seat is already empty.");
 						//resets email value
 						AdminMap.emailValue = null;
@@ -249,34 +262,93 @@ public class RobinGUI {
 					} 	 
 				}
 			});	
-			
+				
+				
+				//Button that takes you to the next room in Admin map.
+				nextRoomBTN.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (AdminMap.roomNumber == 1) {
+							panel.removeAll();
+							AdminMap.Room2();
+						}	else if (AdminMap.roomNumber == 2) {
+							panel.removeAll();
+							AdminMap.Room3();
+						}
+				}
+			});	
+				
+				
+				//Button that takes you to the previous room in Admin map.
+				previousRoomBTN.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					if (AdminMap.roomNumber == 2) {
+						panel.removeAll();
+						AdminMap.mainMenu();
+					} else if (AdminMap.roomNumber == 3) {
+						panel.removeAll();
+						AdminMap.Room2();
+					}
+				}
+			});	
+	
 				//Request button for user in employee map page
 				empRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-						 getFeedbackLB(435,490,"Please select a seat before requesting a seat.");
+						 getFeedbackLB(435,420,"Please select a seat before requesting a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else {
 						SQLUpdateInsert.addRequestedSeat(EditProfile.employeeUsername, EmployeeMap.employeeSeatNumber);
 						panel.removeAll();
-						EmployeeMap.mainMenu();
+						EmployeeMap.getRoom();
 						}
 					}	
 			});			
+				
 				//Cancel request button for user in employee map page
 				cancelEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (EditProfile.changeRequestDetail.equals("2")) {
-						 getFeedbackLB(435,490,"Cancel request failed. No request active.");
+						 getFeedbackLB(450,420,"Cancel request failed. No request active.");
 						 SwingUtilities.updateComponentTreeUI(panel);
 						} else {
 					 SQLRemoveScripts.removeRequestedSeat(EditProfile.employeeUsername);	
 					 panel.removeAll();
-					 EmployeeMap.mainMenu();
-					 getFeedbackLB(475,490,"Request cancelled successfully!");
+					 EmployeeMap.getRoom();
+					 getFeedbackLB(475,420,"Request cancelled successfully!");
 						}
 					}	
 			});	
+				
+				//Button that takes you to the next room in Admin map.
+				empNextRoomBTN.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (EmployeeMap.empRoomNumber == 1) {
+							panel.removeAll();
+							EmployeeMap.roomTwo();
+						}	else if (EmployeeMap.empRoomNumber == 2) {
+							panel.removeAll();
+							EmployeeMap.roomThree();
+						}
+				}
+			});	
+				
+				
+				//Button that takes you to the previous room in Admin map.
+				empPreviousRoomBTN.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					if (EmployeeMap.empRoomNumber == 2) {
+						panel.removeAll();
+						EmployeeMap.mainMenu();
+					} else if (EmployeeMap.empRoomNumber == 3) {
+						panel.removeAll();
+						EmployeeMap.roomTwo();
+					}
+				}
+			});	
+				
+				
+				
 				
 				//Approve button for admin in Admin request page
 				adminEmpRequestBTN.addActionListener(new ActionListener() {
@@ -313,12 +385,14 @@ public class RobinGUI {
 							RequestPage.mainMenu();							
 						}				
 					}	
-			});						
+			});			
+		
 }
 	//Get screen title
 	public static void getTitle(int xValue, String title)  {
 		//Title label
-		titlePageLB.setBounds(xValue,20,250,30);
+		titlePageLB.setBounds(xValue,20,400,30);
+		titlePageLB.setFont(new Font ("Serif", Font.BOLD, 28));
 		titlePageLB.setText(title);
 		panel.add(titlePageLB);
 		return;
@@ -394,7 +468,8 @@ public class RobinGUI {
 	//Method that displays the welcome label
 	static void getWelcomeLB()  {
 		welcomeLB.setText("Welcome " + EditProfile.employeeName);
-		welcomeLB.setBounds(500,320,250,30);
+		welcomeLB.setFont(new Font ("Serif", Font.PLAIN, 28));
+		welcomeLB.setBounds(450,320,250,30);
 		panel.add(welcomeLB);
 	
 	}
@@ -559,21 +634,36 @@ public class RobinGUI {
 				SwingUtilities.updateComponentTreeUI(panel);	
 			}
 	 
-	 //Buton that insert a new account to the database
+	 //Button that moves to the next page in Admin Map
 	 public static void nextRoomBTN() {
-			nextRoomBTN.setBounds(350, 550, 125, 40);
-			nextRoomBTN.setText("Previous Room");
+			nextRoomBTN.setBounds(475, 550, 100, 40);
+			nextRoomBTN.setText("Next Room");
 			panel.add(nextRoomBTN);
 			SwingUtilities.updateComponentTreeUI(panel);	
 		}
-	 
+	 //Button that moves to the previous page in Admin Map
 	 public static void previousRoomBTN() {
-		 previousRoomBTN.setBounds(475, 550, 100, 40);
-		 previousRoomBTN.setText("Next Room");
+		 previousRoomBTN.setBounds(350, 550, 125, 40);
+		 previousRoomBTN.setText("Previous Room");
 		 panel.add(previousRoomBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
-	 	
+	 
+	 //Button that moves to the next page in employee Map
+	 public static void empNextRoomBTN() {
+			empNextRoomBTN.setBounds(575, 500, 170, 40);
+			empNextRoomBTN.setText("Next Room");
+			panel.add(empNextRoomBTN);
+			SwingUtilities.updateComponentTreeUI(panel);	
+		}
+	 //Button that moves to the previous page in employee Map
+	 public static void empPreviousRoomBTN() {
+		 empPreviousRoomBTN.setBounds(400, 500, 170, 40);
+		 empPreviousRoomBTN.setText("Previous Room");
+		 panel.add(empPreviousRoomBTN);
+		 SwingUtilities.updateComponentTreeUI(panel);	
+		}
+
 	 public static void assignSeatBTN() {
 		 assignSeatBTN.setBounds(575, 550, 100, 40);
 		 assignSeatBTN.setText("Assign seat");

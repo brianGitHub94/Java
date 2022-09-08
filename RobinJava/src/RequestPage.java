@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities;
 
 		static void mainMenu() {		
 		//Title label
-	    getTitle(500,"Request Page");
+	    getTitle(470,"Request Page");
 	    adminMenuBTN(50);	
 	    adminEmpRequestBTN();
 	    adminCancelEmpRequestBTN();

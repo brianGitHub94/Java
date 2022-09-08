@@ -5,20 +5,26 @@ public class EmployeeMap extends RobinGUI{
 	static String employeeSeatNumber;
 	//String of user requested seat.
 	static String empRequestSeat;
+	static Integer empRoomNumber;
 
 	static void mainMenu() {	
+		empRoomNumber = 1;
 		//Title label
-		getTitle(500,"Map menu");
+		getTitle(480,"Main Room");
 	    employeeMenuBTN();	
-	    SQLTableScripts.GetSeatList2();
-		RobinGUI.getUserLB(440, 400, "User: " + EditProfile.employeeUsername);
-		AdminMap.seatNumberLB(300, 75, "Please select a seat number: ");
+	    SQLTableScripts.GetSeatList2("Main_Room");
+		RobinGUI.getUserLB(220, 400, "User: " + EditProfile.employeeUsername);
+		AdminMap.seatNumberLB(10, 75, "Please select a seat number: ");
 		SQLSelectScripts.getRequestDetail();
 		empRequestBTN();
 		cancelEmpRequestBTN();
+		empPreviousRoomBTN();
+		empNextRoomBTN();
+		empPreviousRoomBTN.setEnabled(false);
+		empNextRoomBTN.setEnabled(true);
 		 if (EditProfile.changeRequestDetail.equals("1") ) {
-			 getFeedbackLB(415,490,"Please cancel request before requesting a new seat.");
-			 getSecondLB(680,75,"Requested seat: " + empRequestSeat);
+			 getFeedbackLB(415,420,"Please cancel request before requesting a new seat.");
+			 getSecondLB(370,75,"Requested seat: " + empRequestSeat);
 			 empRequestBTN.setEnabled(false);
 			 SwingUtilities.updateComponentTreeUI(panel);	
 			} else {
@@ -26,5 +32,68 @@ public class EmployeeMap extends RobinGUI{
 			}
 		SwingUtilities.updateComponentTreeUI(panel);	
 	}	
+	
+	
+	static void roomTwo() {	
+		empRoomNumber = 2;
+		//Title label
+		getTitle(480,"Room Two");
+	    employeeMenuBTN();	
+	    SQLTableScripts.GetSeatList2("Room_Two");
+		RobinGUI.getUserLB(220, 400, "User: " + EditProfile.employeeUsername);
+		AdminMap.seatNumberLB(10, 75, "Please select a seat number: ");
+		SQLSelectScripts.getRequestDetail();
+		empRequestBTN();
+		cancelEmpRequestBTN();
+		empPreviousRoomBTN();
+		empNextRoomBTN();
+		empPreviousRoomBTN.setEnabled(true);
+		empNextRoomBTN.setEnabled(true);
+		 if (EditProfile.changeRequestDetail.equals("1") ) {
+			 getFeedbackLB(415,420,"Please cancel request before requesting a new seat.");
+			 getSecondLB(370,75,"Requested seat: " + empRequestSeat);
+			 empRequestBTN.setEnabled(false);
+			 SwingUtilities.updateComponentTreeUI(panel);	
+			} else {
+				empRequestBTN.setEnabled(true);
+			}
+		SwingUtilities.updateComponentTreeUI(panel);	
+	}	
+	
+	static void roomThree() {	
+		empRoomNumber = 3;
+		//Title label
+		getTitle(480,"Room Three");
+	    employeeMenuBTN();	
+	    SQLTableScripts.GetSeatList2("Room_Three");
+		RobinGUI.getUserLB(220, 400, "User: " + EditProfile.employeeUsername);
+		AdminMap.seatNumberLB(10, 75, "Please select a seat number: ");
+		SQLSelectScripts.getRequestDetail();
+		empRequestBTN();
+		cancelEmpRequestBTN();
+		empPreviousRoomBTN();
+		empNextRoomBTN();
+		empPreviousRoomBTN.setEnabled(true);
+		empNextRoomBTN.setEnabled(false);
+		 if (EditProfile.changeRequestDetail.equals("1") ) {
+			 getFeedbackLB(415,420,"Please cancel request before requesting a new seat.");
+			 getSecondLB(370,75,"Requested seat: " + empRequestSeat);
+			 empRequestBTN.setEnabled(false);
+			 SwingUtilities.updateComponentTreeUI(panel);	
+			} else {
+				empRequestBTN.setEnabled(true);
+			}
+		SwingUtilities.updateComponentTreeUI(panel);	
+	}	
+	
+	static void getRoom() {
+		if (empRoomNumber == 1) {
+			mainMenu();
+		}else if (empRoomNumber == 2) {
+			roomTwo();
+		}else if (empRoomNumber == 3) {
+			roomThree();
+		}
+	}
 }
 

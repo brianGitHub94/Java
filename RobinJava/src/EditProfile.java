@@ -15,7 +15,7 @@ public class EditProfile extends RobinGUI{
 	
 	static void mainMenu(int profile) {
 		//Title label
-		getTitle(520,"Edit Menu");
+		getTitle(490,"Edit Menu");
 		//TextBox and Labels GUI
 		getUserLB(335,100,"Username:              " + employeeUsername);
 		getSecondLB(335,140,"Insert Password: " );

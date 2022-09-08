@@ -77,7 +77,7 @@ public class SQLSelectScripts extends RobinGUI{
 	         stmt.close();
 	         c.close();
 	           //If email and password matches from the database it'll enter employee page.
-	         if (RobinGUI.searchTB.getText().equals("brian") || RobinGUI.searchTB.getText().equals("") || !RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
+	         if (RobinGUI.searchTB.getText().equals("brian") || !RobinGUI.searchTB.getText().equals(EditProfile.employeeUsername)) {
 	        	 panel.removeAll();
 	        	 ProfileList.mainMenu();
 	        	 getFeedbackLB(615, 525, "Account not found");
@@ -118,15 +118,13 @@ public class SQLSelectScripts extends RobinGUI{
 	         		panel.removeAll();
 	         		AdminMap.getUserLB(100, 75, "Account not found");
 	         		AdminMap.emailValue = null;
-	         		AdminMap.counter = 0;
-	         		AdminMap.mainMenu();
+	         		AdminMap.getRoom();
 	         		
 	         } else {
-	        	    AdminMap.counter = 1;
-	        	 	panel.removeAll();
 	        	 	getUserLB(100, 75, "Emailed selected: " + EditProfile.employeeUsername);
 	        	 	getThirdLB(100, 300,"Employee name: " + EditProfile.employeeName + " " + EditProfile.employeeLName);
-	        	 	AdminMap.mainMenu();
+	        	 	SwingUtilities.updateComponentTreeUI(panel);		     
+	        	 	SQLTableScripts.GetEmailsMapList();
 	         } 	   
 	         //Closes statement and connection
 	         rs.close();
@@ -160,8 +158,8 @@ public class SQLSelectScripts extends RobinGUI{
 	   	     stmt.close();
 	   	     c.close();
 	         panel.removeAll();
-	         getFeedbackLB(275, 325, "Please remove employee from assigned seat before assigning.");
-	         AdminMap.mainMenu();
+	         getFeedbackLB(380, 600, "Please remove employee from assigned seat before assigning.");
+	         AdminMap.getRoom();
 	         }  else {
 	        	 rs.close();
 		         stmt.close();
@@ -197,9 +195,8 @@ public class SQLSelectScripts extends RobinGUI{
    					stmt.close();
    					c.close();
    					panel.removeAll();
-   					getFeedbackLB(350, 330, "Please make sure the seat is empty.");
-   					AdminMap.counter = 0;
-   					AdminMap.mainMenu();
+   					getFeedbackLB(450, 600, "Please make sure the seat is empty.");
+   					AdminMap.getRoom();
    				} else {
    					rs.close();
    					stmt.close();
@@ -231,12 +228,12 @@ public class SQLSelectScripts extends RobinGUI{
 		        	 AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
 		         }
 		         if (AdminMap.employeeSeatEmpty2 == null) {
-         		 getFeedbackLB(350, 330, "Please make sure the seat is not empty.");
+         		 getFeedbackLB(450, 600, "Please make sure the seat is not empty.");
 			        rs.close();
 			        stmt.close();
 			        c.close();
 			        panel.removeAll();
-			        AdminMap.mainMenu();
+			        AdminMap.getRoom();
 		         }  else {
 		        	rs.close();
 		            stmt.close();

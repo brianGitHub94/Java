@@ -120,6 +120,7 @@ public class SQLTableScripts extends RobinGUI {
 		            //Adds the array into a row.
 		            model2.addRow(tableData);
 		            }
+		           
 		         }   
 		         jTable2.addMouseListener((MouseListener) new MouseAdapter() {
 		        	 public void mouseClicked(MouseEvent e) {
@@ -130,7 +131,8 @@ public class SQLTableScripts extends RobinGUI {
 		        		AdminMap.emailValue = (String) model2.getValueAt(row, 0);
 		        		AdminMap.employeeAssigned = (String) model2.getValueAt(row, 1);
 		        		SwingUtilities.updateComponentTreeUI(panel);	
-		        		RobinGUI.mapSearchBTN.doClick();
+		        		SQLSelectScripts.DisplayAccountsMapPage(searchTB.getText());
+		        		RobinGUI.searchTB.setText("");
 		        		 }
 		        	 }   	 
 		         });
@@ -206,7 +208,7 @@ public class SQLTableScripts extends RobinGUI {
 				}
 		
 			//Method to display seats in the AdminMap page.
-			public static void GetSeatList()  {
+			public static void GetSeatList(String roomName)  {
 				try {
 					Class.forName("org.postgresql.Driver");
 					c = DriverManager
@@ -214,7 +216,7 @@ public class SQLTableScripts extends RobinGUI {
 									"postgres", "123");
 					c.setAutoCommit(false);
 					stmt = c.createStatement();
-					String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid;";
+					String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid WHERE room_name = '" + roomName  +"';";
 					//Executes Query
 					ResultSet rs = stmt.executeQuery(query); 
 					@SuppressWarnings("serial")
@@ -266,7 +268,7 @@ public class SQLTableScripts extends RobinGUI {
 		}
 	   
 	   //Method to display seats for the employee map page.
-	   public static void GetSeatList2()  {
+	   public static void GetSeatList2(String roomNumber)  {
 	      try {
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
@@ -274,7 +276,7 @@ public class SQLTableScripts extends RobinGUI {
 	            "postgres", "123");
 	         c.setAutoCommit(false);
 	         stmt = c.createStatement();
-	         String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid;";
+	         String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid where room_name = '" + roomNumber + "';";
 	         //Executes Query
 	           ResultSet rs = stmt.executeQuery(query);
 	           
@@ -285,7 +287,7 @@ public class SQLTableScripts extends RobinGUI {
 	        	 };
 	           };
 	           JScrollPane jScrollPane = new JScrollPane(jTable4);
-	           jScrollPane.setBounds(300, 100, 500, 300);
+	           jScrollPane.setBounds(10, 100, 500, 300);
 	           RobinGUI.panel.add(jScrollPane);
 	         //Used for inserting rows and columns. 
 	         DefaultTableModel model4 = (DefaultTableModel) jTable4.getModel();
@@ -295,7 +297,7 @@ public class SQLTableScripts extends RobinGUI {
 	         model4.setColumnIdentifiers(tableColumn);
 	         //While The Query is running do the following.
 	         while ( rs.next() ) {   
-	        	//Sets the following variables to the string values.	
+	        	//Sets the following variables to the string values.
 	        	AdminMap.seatNumber = rs.getString("seat_number");
 	            AdminMap.seatAssigned = rs.getString("seat_assigned");
 	            AdminMap.SeatEmployee = rs.getString("employee_name");

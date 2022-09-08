@@ -100,11 +100,10 @@ public class SQLUpdateInsert extends RobinGUI{
 		if ( a ==1) {
 		panel.removeAll();
 		getFeedbackLB(500, 600, "Account updated!");
-		AdminMap.counter = 0;
 		AdminMap.emailValue = null;
 		AdminMap.employeeAssigned = null;
 		AdminMap.seatValue = null;
-		AdminMap.mainMenu();
+		AdminMap.getRoom();
 		} else {
 			getFeedbackLB(400, 350, "Account updated!");
 		}

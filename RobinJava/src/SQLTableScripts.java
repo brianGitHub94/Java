@@ -270,6 +270,8 @@ public class SQLTableScripts extends RobinGUI {
 	   //Method to display seats for the employee map page.
 	   public static void GetSeatList2(String roomNumber)  {
 	      try {
+	    	  EmployeeMap.arrayAssigned.clear();
+	    	  EmployeeMap.arrayNumber.clear();
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
 	            .getConnection("jdbc:postgresql://localhost:5432/brianacosta",
@@ -303,6 +305,13 @@ public class SQLTableScripts extends RobinGUI {
 	            AdminMap.SeatEmployee = rs.getString("employee_name");
 	            //Creates an array with all the previous strings.
 	            String[] tableData = {AdminMap.seatNumber,AdminMap.seatAssigned,AdminMap.SeatEmployee};
+	            if (rs.getString("seat_assigned").equals("Yes"))  {
+	            	EmployeeMap.arrayAssigned.add("Yes");
+	            	EmployeeMap.arrayNumber.add(rs.getString("seat_number"));
+	            } else {
+	            	EmployeeMap.arrayAssigned.add("No");
+	            	EmployeeMap.arrayNumber.add(rs.getString("seat_number"));
+	            }
 	            //Adds the array into a row.
 	            model4.addRow(tableData);
 	         }

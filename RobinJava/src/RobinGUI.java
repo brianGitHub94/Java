@@ -1,7 +1,7 @@
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 public class RobinGUI {
 	static JFrame frame = new JFrame();
 	static JPanel panel = new JPanel();
+	static JPanel panel2 = new JPanel();
 	static JLabel titlePageLB = new JLabel();
 	static JTextField usernameTB = new JTextField();
 	static JTextField passwordTB = new JTextField();
@@ -53,6 +54,7 @@ public class RobinGUI {
 	static JButton empNextRoomBTN = new JButton();
 	static JButton empPreviousRoomBTN = new JButton();
 	
+	
 	public RobinGUI() {
 	//Setting the size of the window when it opens.
 	frame.setSize(1100,700);
@@ -66,6 +68,7 @@ public class RobinGUI {
 	//frame.pack();
 	frame.setVisible(true);
 	frame.add(panel);
+	
 	
 	//Logs user out and takes them to the home page.
 	homeBTN.addActionListener(new ActionListener() {
@@ -346,10 +349,7 @@ public class RobinGUI {
 					}
 				}
 			});	
-				
-				
-				
-				
+						
 				//Approve button for admin in Admin request page
 				adminEmpRequestBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) { 
@@ -388,6 +388,9 @@ public class RobinGUI {
 			});			
 		
 }
+	
+	
+	
 	//Get screen title
 	public static void getTitle(int xValue, String title)  {
 		//Title label
@@ -543,7 +546,7 @@ public class RobinGUI {
 	//Button that takes you to the employee edit profile page 
 	public static void profileBTNMethod() {
 		profileBTN.setBounds(300, 200, 250, 50);
-		profileBTN.setText("Edit profiles");
+		profileBTN.setText("Edit profile");
 		panel.add(profileBTN);
 	SwingUtilities.updateComponentTreeUI(panel);		
 }
@@ -681,7 +684,7 @@ public class RobinGUI {
 	 
 	 public static void empRequestBTN() {
 		 empRequestBTN.setBounds(575, 450, 170, 40);
-		 empRequestBTN.setText("Request seat change");
+		 empRequestBTN.setText("Request seat");
 		 panel.add(empRequestBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}

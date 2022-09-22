@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javax.swing.SwingUtilities;
 
 public class EmployeeMap extends RobinGUI{
@@ -6,8 +8,10 @@ public class EmployeeMap extends RobinGUI{
 	//String of user requested seat.
 	static String empRequestSeat;
 	static Integer empRoomNumber;
-
-	static void mainMenu() {	
+	static ArrayList <String> arrayAssigned = new ArrayList<String>();
+	static ArrayList <String> arrayNumber= new ArrayList<String>();
+	static void mainMenu() {
+		
 		empRoomNumber = 1;
 		//Title label
 		getTitle(480,"Main Room");
@@ -22,6 +26,7 @@ public class EmployeeMap extends RobinGUI{
 		empNextRoomBTN();
 		empPreviousRoomBTN.setEnabled(false);
 		empNextRoomBTN.setEnabled(true);
+		
 		 if (EditProfile.changeRequestDetail.equals("1") ) {
 			 getFeedbackLB(415,420,"Please cancel request before requesting a new seat.");
 			 getSecondLB(370,75,"Requested seat: " + empRequestSeat);
@@ -29,10 +34,13 @@ public class EmployeeMap extends RobinGUI{
 			 SwingUtilities.updateComponentTreeUI(panel);	
 			} else {
 				empRequestBTN.setEnabled(true);
-			}
-		SwingUtilities.updateComponentTreeUI(panel);	
+			};	
+		JavaGraphics graphics = new JavaGraphics();
+		graphics.setSize(1100,1000);
+		panel.add(graphics);
+		SwingUtilities.updateComponentTreeUI(RobinGUI.panel);	
 	}	
-	
+
 	
 	static void roomTwo() {	
 		empRoomNumber = 2;
@@ -57,7 +65,10 @@ public class EmployeeMap extends RobinGUI{
 			} else {
 				empRequestBTN.setEnabled(true);
 			}
-		SwingUtilities.updateComponentTreeUI(panel);	
+		    JavaGraphics graphics = new JavaGraphics();
+			graphics.setSize(1100,1000);
+			panel.add(graphics);
+			SwingUtilities.updateComponentTreeUI(panel);	
 	}	
 	
 	static void roomThree() {	
@@ -83,7 +94,10 @@ public class EmployeeMap extends RobinGUI{
 			} else {
 				empRequestBTN.setEnabled(true);
 			}
-		SwingUtilities.updateComponentTreeUI(panel);	
+		 	JavaGraphics graphics = new JavaGraphics();
+			graphics.setSize(1100,1000);
+			panel.add(graphics);
+			SwingUtilities.updateComponentTreeUI(panel);	
 	}	
 	
 	static void getRoom() {
@@ -96,4 +110,5 @@ public class EmployeeMap extends RobinGUI{
 		}
 	}
 }
+
 

@@ -38,7 +38,7 @@ static Integer roomNumber;
 		previousRoomBTN.setEnabled(false);
 		nextRoomBTN.setEnabled(true);
 		//Title label
-		getTitle(450,"MAIN ROOM");
+		getTitle(460,"MAIN ROOM");
 		//Button that takes admin to the main menu.
 		adminMenuBTN(50);
 		getSearchTB(780, 50, null);

@@ -13,14 +13,14 @@ import javax.swing.JPanel;
 				g.drawString("Main Room", 810, 90);
 				g.drawRect(700, 100, 300, 300);	
 				for (int i = 0; i < 6; i++) {
-					if (EmployeeMap.arrayAssigned.get(i).equals("Yes")) {
+					if (RobinGUI.arrayAssigned.get(i).equals("Yes")) {
 						g.setColor(Color.BLACK);
-						g.drawString("Seat " + EmployeeMap.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
+						g.drawString("Seat " + RobinGUI.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
 						g.setColor(Color.RED);
 						g.fillRect(xValue[i], yValue[i], 50, 50);
 					} else {
 						g.setColor(Color.BLACK);
-						g.drawString("Seat " + EmployeeMap.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
+						g.drawString("Seat " + RobinGUI.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
 						g.setColor(Color.GREEN);
 						g.fillRect(xValue[i], yValue[i], 50, 50);
 					}
@@ -30,14 +30,14 @@ import javax.swing.JPanel;
 				g.drawString("Room Two", 810, 90);
 				g.drawRect(700, 100, 300, 300);
 				for (int i = 0; i < 6; i++) {
-					if (EmployeeMap.arrayAssigned.get(i).equals("Yes")) {
+					if (RobinGUI.arrayAssigned.get(i).equals("Yes")) {
 						g.setColor(Color.BLACK);
-						g.drawString("Seat " + EmployeeMap.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
+						g.drawString("Seat " + RobinGUI.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
 						g.setColor(Color.RED);
 						g.fillRect(xValue[i], yValue[i], 50, 50);
 					} else {
 						g.setColor(Color.BLACK);
-						g.drawString("Seat " + EmployeeMap.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
+						g.drawString("Seat " + RobinGUI.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
 						g.setColor(Color.GREEN);
 						g.fillRect(xValue[i], yValue[i], 50, 50);
 					}
@@ -47,18 +47,20 @@ import javax.swing.JPanel;
 				g.drawString("Room Three", 810, 90);
 				g.drawRect(700, 100, 300, 300);
 				for (int i = 0; i < 6; i++) {
-					if (EmployeeMap.arrayAssigned.get(i).equals("Yes")) {
+					if (RobinGUI.arrayAssigned.get(i).equals("Yes")) {
 						g.setColor(Color.BLACK);
-						g.drawString("Seat " + EmployeeMap.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
+						g.drawString("Seat " + RobinGUI.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
 						g.setColor(Color.RED);
 						g.fillRect(xValue[i], yValue[i], 50, 50);
 					} else {
 						g.setColor(Color.BLACK);
-						g.drawString("Seat " + EmployeeMap.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
+						g.drawString("Seat " + RobinGUI.arrayNumber.get(i), (xValue[i] + 5 ), (yValue[i]- 10));
 						g.setColor(Color.GREEN);
 						g.fillRect(xValue[i], yValue[i], 50, 50);
 					}
 				}		
 			}
+			
+			
 		}		
 }

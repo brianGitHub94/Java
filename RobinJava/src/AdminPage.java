@@ -11,18 +11,18 @@ public class AdminPage extends RobinGUI {
 		 //Checks if an employee is assigned to a seat in AdminMap.
 		 AdminMap.employeeAssigned = null;
 		 //Resets requested email value in AdminMap.
-		 AdminMap.RequestedEmail = null;
+		 AdminMap.RequestedEmail = null; 
 		 
 		//Title label
 		getTitle(460,"Admin Menu");
 		//Log out button.
 		homebackBTN();
 		//Admin request page.
-		adminrequestBTNMethod();
+		adminrequestBTN();
 		//Create and edit profile page.
-		adminprofileBTNMethod();
+		adminprofileBTN();
 		//Admin map page.
-		adminchangeSeatBTNMethod();
+		adminchangeSeatBTN();
 		//Request label.
 		requestLBMethod(1);
 		SwingUtilities.updateComponentTreeUI(panel);	

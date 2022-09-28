@@ -210,13 +210,15 @@ public class SQLTableScripts extends RobinGUI {
 			//Method to display seats in the AdminMap page.
 			public static void GetSeatList(String roomName)  {
 				try {
+					RobinGUI.arrayAssigned.clear();
+					RobinGUI.arrayNumber.clear();
 					Class.forName("org.postgresql.Driver");
 					c = DriverManager
 							.getConnection("jdbc:postgresql://localhost:5432/brianacosta",
 									"postgres", "123");
 					c.setAutoCommit(false);
 					stmt = c.createStatement();
-					String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid WHERE room_name = '" + roomName  +"';";
+					String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid WHERE room_name = '" + roomName  +"'ORDER BY seat_id USING <;";
 					//Executes Query
 					ResultSet rs = stmt.executeQuery(query); 
 					@SuppressWarnings("serial")
@@ -226,7 +228,7 @@ public class SQLTableScripts extends RobinGUI {
 						};
 					};
 			        JScrollPane jScrollPane = new JScrollPane(jTable3);
-			        jScrollPane.setBounds(600, 100, 400, 200);
+			        jScrollPane.setBounds(100, 330, 400, 200);
 			        RobinGUI.panel.add(jScrollPane);
 			        //Used for inserting rows and columns. 
 			        DefaultTableModel model3 = (DefaultTableModel) jTable3.getModel();
@@ -242,6 +244,13 @@ public class SQLTableScripts extends RobinGUI {
 			            AdminMap.SeatEmployee = rs.getString("employee_name");
 			            //Creates an array with all the previous strings.
 			            String[] tableData = {AdminMap.seatNumber,AdminMap.seatAssigned,AdminMap.SeatEmployee};
+			            if (rs.getString("seat_assigned").equals("Yes"))  {
+			            	RobinGUI.arrayAssigned.add("Yes");
+			            	RobinGUI.arrayNumber.add(rs.getString("seat_number"));
+			            } else {
+			            	RobinGUI.arrayAssigned.add("No");
+			            	RobinGUI.arrayNumber.add(rs.getString("seat_number"));
+			            }   
 			            //Adds the array into a row.
 			            model3.addRow(tableData);
 	         }      
@@ -270,15 +279,15 @@ public class SQLTableScripts extends RobinGUI {
 	   //Method to display seats for the employee map page.
 	   public static void GetSeatList2(String roomNumber)  {
 	      try {
-	    	  EmployeeMap.arrayAssigned.clear();
-	    	  EmployeeMap.arrayNumber.clear();
+	    	  RobinGUI.arrayAssigned.clear();
+	    	  RobinGUI.arrayNumber.clear();
 	         Class.forName("org.postgresql.Driver");
 	         c = DriverManager
 	            .getConnection("jdbc:postgresql://localhost:5432/brianacosta",
 	            "postgres", "123");
 	         c.setAutoCommit(false);
 	         stmt = c.createStatement();
-	         String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid where room_name = '" + roomNumber + "';";
+	         String query = "SELECT seat_number, seat_assigned, employee_name FROM seatid where room_name = '" + roomNumber + "' ORDER BY seat_id USING <;";
 	         //Executes Query
 	           ResultSet rs = stmt.executeQuery(query);
 	           
@@ -306,11 +315,11 @@ public class SQLTableScripts extends RobinGUI {
 	            //Creates an array with all the previous strings.
 	            String[] tableData = {AdminMap.seatNumber,AdminMap.seatAssigned,AdminMap.SeatEmployee};
 	            if (rs.getString("seat_assigned").equals("Yes"))  {
-	            	EmployeeMap.arrayAssigned.add("Yes");
-	            	EmployeeMap.arrayNumber.add(rs.getString("seat_number"));
+	            	RobinGUI.arrayAssigned.add("Yes");
+	            	RobinGUI.arrayNumber.add(rs.getString("seat_number"));
 	            } else {
-	            	EmployeeMap.arrayAssigned.add("No");
-	            	EmployeeMap.arrayNumber.add(rs.getString("seat_number"));
+	            	RobinGUI.arrayAssigned.add("No");
+	            	RobinGUI.arrayNumber.add(rs.getString("seat_number"));
 	            }
 	            //Adds the array into a row.
 	            model4.addRow(tableData);

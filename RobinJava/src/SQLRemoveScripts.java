@@ -7,7 +7,7 @@ public class SQLRemoveScripts extends RobinGUI {
     static Statement stmt = null;
     
 	//Method to edit email seat_assigned
-		public static void  removeSeatEmail(int a,String seatNumber){
+		public static void  removeSeatEmail(int number,String seatNumber){
 			try {
 				Class.forName("org.postgresql.Driver");
 				c = DriverManager
@@ -19,14 +19,14 @@ public class SQLRemoveScripts extends RobinGUI {
 				stmt.executeUpdate(query);
 				c.close(); 
 				stmt.close();
-				if (a == 1) {
+				if (number == 1) {
 				panel.removeAll();
 				AdminMap.getRoom();
-				getFeedbackLB(500, 600, "Account updated!");
+				getFeedbackLB(750, 430, "Account updated!");
 				AdminMap.emailValue = null;
 				AdminMap.employeeAssigned = null;
 				AdminMap.seatValue = null;
-				}
+				} 
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.err.println(e.getClass().getName()+": "+e.getMessage());
@@ -99,19 +99,24 @@ public class SQLRemoveScripts extends RobinGUI {
 	
 			/*This method executes when REMOVE button is clicked in Admin map page 
 			 * and after checkSeatStatus2 Method is ran. */
-			public static void removeEmailSeat() {		
+			public static void removeEmailSeat(int number, String Email) {		
 				try {
 					Class.forName("org.postgresql.Driver");
 					c = DriverManager
 							.getConnection("jdbc:postgresql://localhost:5432/brianacosta",
 									"postgres", "123");
 					stmt = c.createStatement();		 
-					String query = "UPDATE robin SET seat_assigned = NULL WHERE email = '" + AdminMap.employeeSeatEmpty2 + "';";
+					String query = "UPDATE robin SET seat_assigned = NULL WHERE email = '" + Email + "';";
 					//Executes Query
 					stmt.executeUpdate(query);  
 					c.close(); 
 					stmt.close();
+					//If user is in admin page 1 will be triggered. If user is in employee page 2 will be triggered.
+					if (number == 1) {
 					SQLRemoveScripts.removeSeatEmail(1, AdminMap.originalSeatID);
+					} else if (number == 2) {
+						SQLRemoveScripts.removeSeatEmail(2, employeePage.empSeatid);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.err.println(e.getClass().getName()+": "+e.getMessage());

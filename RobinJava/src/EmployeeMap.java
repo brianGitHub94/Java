@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 import javax.swing.SwingUtilities;
 
 public class EmployeeMap extends RobinGUI{
@@ -7,9 +5,10 @@ public class EmployeeMap extends RobinGUI{
 	static String employeeSeatNumber;
 	//String of user requested seat.
 	static String empRequestSeat;
+	//Variable that gets assign a value for each room a number.
 	static Integer empRoomNumber;
-	static ArrayList <String> arrayAssigned = new ArrayList<String>();
-	static ArrayList <String> arrayNumber= new ArrayList<String>();
+	//Gets value of if the seat is assigned or not and inserts it in a array.
+	
 	static void mainMenu() {
 		
 		empRoomNumber = 1;

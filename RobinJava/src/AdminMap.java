@@ -48,11 +48,14 @@ static Integer roomNumber;
 		nextRoomBTN();
 		assignSeatBTN();
 		removeSeatBTN();
-		seatNumberLB(600,300 ,"Please select a seat number: ");
+		seatNumberLB(230,530 ,"Please select a seat number: ");
 		SQLTableScripts.GetEmailsMapList();
 		SQLTableScripts.GetSeatList("Main_Room");
 		getThirdLB(100, 300,"Select an Account: ");
-		SwingUtilities.updateComponentTreeUI(panel);		
+		JavaGraphicsAdmin graphics = new JavaGraphicsAdmin();
+		graphics.setSize(1100,1000);
+		panel.add(graphics);
+		SwingUtilities.updateComponentTreeUI(RobinGUI.panel);		
 	}
 	
 	static void Room2() {
@@ -74,11 +77,14 @@ static Integer roomNumber;
 		nextRoomBTN();
 		assignSeatBTN();
 		removeSeatBTN();
-		seatNumberLB(600,300 ,"Please select a seat number: ");
+		seatNumberLB(230,530 ,"Please select a seat number: ");
 		SQLTableScripts.GetEmailsMapList();
 		SQLTableScripts.GetSeatList("Room_Two");
 		getThirdLB(100, 300,"Select an Account: ");
-		SwingUtilities.updateComponentTreeUI(panel);		
+		JavaGraphicsAdmin graphics = new JavaGraphicsAdmin();
+		graphics.setSize(1100,1000);
+		panel.add(graphics);
+		SwingUtilities.updateComponentTreeUI(RobinGUI.panel);			
 	}
 	
 	static void Room3() {
@@ -99,11 +105,14 @@ static Integer roomNumber;
 		nextRoomBTN();
 		assignSeatBTN();
 		removeSeatBTN();
-		seatNumberLB(600,300 ,"Please select a seat number: ");
+		seatNumberLB(230,530 ,"Please select a seat number: ");
 		SQLTableScripts.GetEmailsMapList();
 		SQLTableScripts.GetSeatList("Room_Three");
 		getThirdLB(100, 300,"Select an Account: ");
-		SwingUtilities.updateComponentTreeUI(panel);		
+		JavaGraphicsAdmin graphics = new JavaGraphicsAdmin();
+		graphics.setSize(1100,1000);
+		panel.add(graphics);
+		SwingUtilities.updateComponentTreeUI(RobinGUI.panel);			
 	}
 	
 	static void getRoom() {

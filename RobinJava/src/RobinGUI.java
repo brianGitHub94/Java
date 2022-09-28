@@ -53,7 +53,11 @@ public class RobinGUI {
 	static JLabel seatNumberLB = new JLabel();
 	static JButton empNextRoomBTN = new JButton();
 	static JButton empPreviousRoomBTN = new JButton();
-	
+	static JButton empLeaveSeatBTN = new JButton();
+	static JLabel currentSeatLB = new JLabel();
+	static ArrayList <String> arrayAssigned = new ArrayList<String>();
+	//Gets the seat number of each employee and inserts it in the array.
+	static ArrayList <String> arrayNumber= new ArrayList<String>();
 	
 	public RobinGUI() {
 	//Setting the size of the window when it opens.
@@ -221,15 +225,15 @@ public class RobinGUI {
 						if (AdminMap.emailValue == null) {
 							panel.removeAll();
 							AdminMap.getRoom();
-							getFeedbackLB(380, 600, "Please select a current employee from list before assigning.");
+							getFeedbackLB(610, 430, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (seatNumberLB.getText() == "Please select a seat number: ") {
-							getFeedbackLB(500, 600, "Please select a seat.");
+							getFeedbackLB(740, 430, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
 						panel.removeAll();
 						AdminMap.getRoom();
-						getFeedbackLB(450, 600, "Please empty seat before assigning.");
+						getFeedbackLB(680, 430, "Please empty seat before assigning.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
@@ -240,7 +244,7 @@ public class RobinGUI {
 					}	else if (AdminMap.seatValue == null && AdminMap.employeeAssigned == null) {
 						SQLSelectScripts.CheckEmpSeatStatus();
 					} else {
-						AdminMap.getFeedbackLB(380, 600, "Please remove employee from assigned seat before assigning.");
+						AdminMap.getFeedbackLB(610, 430, "Please remove employee from assigned seat before assigning.");
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}
 					}
@@ -249,19 +253,19 @@ public class RobinGUI {
 				removeSeatBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					 if (AdminMap.seatNumberLB.getText() == "Please select a seat number: ") {
-							getFeedbackLB(500, 600, "Please select a seat.");
+							getFeedbackLB(740, 430, "Please select a seat.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (AdminMap.seatValue == null) {
 						panel.removeAll();
 						AdminMap.getRoom();
-						getFeedbackLB(490, 600, "Seat is already empty.");
+						getFeedbackLB(720, 430, "Seat is already empty.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
 						AdminMap.seatValue = null;
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue != null) {
-						SQLSelectScripts.checkSeatStatus2(AdminMap.originalSeatID);
+						SQLSelectScripts.checkSeatStatus2(1,AdminMap.originalSeatID);
 					} 	 
 				}
 			});	
@@ -386,8 +390,19 @@ public class RobinGUI {
 						}				
 					}	
 			});			
-		
-}
+								
+			//Button for employee page that unassigns user from current seat.
+			empLeaveSeatBTN.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e)  {
+					SQLSelectScripts.getRequestDetail();
+						if (!(employeePage.empSeatid == null)) {
+					SQLSelectScripts.checkSeatStatus2(2, employeePage.empSeatid);
+						}
+						panel.removeAll();
+						employeePage.mainMenu();
+				}
+			});	
+		}
 	
 	
 	
@@ -472,10 +487,24 @@ public class RobinGUI {
 	static void getWelcomeLB()  {
 		welcomeLB.setText("Welcome " + EditProfile.employeeName);
 		welcomeLB.setFont(new Font ("Serif", Font.PLAIN, 28));
-		welcomeLB.setBounds(450,320,250,30);
+		welcomeLB.setBounds(450,555,250,30);
 		panel.add(welcomeLB);
 	
 	}
+	
+	//Method that displays the welcome label
+		static void getCurrentSeatLB()  {
+			if (employeePage.empSeatid == null) {
+			currentSeatLB.setText("Current seat: Not assigned");
+			} else {
+				currentSeatLB.setText("Current seat: Seat " + employeePage.empSeatid);
+			}
+			currentSeatLB.setFont(new Font ("Serif", Font.PLAIN, 20));
+			currentSeatLB.setBounds(445,305,300,30);
+			panel.add(currentSeatLB);
+		
+		}
+	
 	//JLabel for most feedback when a button is pressed.
 	static void getFeedbackLB(int lbX, int lbY, String Label)  {
 		feedbackLB.setBounds(lbX,lbY,400,30);
@@ -544,31 +573,39 @@ public class RobinGUI {
 	
 	//Employee Page specific buttons 
 	//Button that takes you to the employee edit profile page 
-	public static void profileBTNMethod() {
-		profileBTN.setBounds(300, 200, 250, 50);
+	public static void profileBTN() {
+		profileBTN.setBounds(150, 200, 250, 50);
 		profileBTN.setText("Edit profile");
 		panel.add(profileBTN);
 	SwingUtilities.updateComponentTreeUI(panel);		
 }
 	//Button that takes you to the employee change seat page 
-	public static void changeSeatBTNMethod() {
-	changeSeatBTN.setBounds(550, 200, 250, 50);
-	changeSeatBTN.setText("Change seat");
-	panel.add(changeSeatBTN);
-	SwingUtilities.updateComponentTreeUI(panel);		
+	public static void changeSeatBTN() {
+		changeSeatBTN.setBounds(400, 200, 250, 50);
+		changeSeatBTN.setText("Change seat");
+		panel.add(changeSeatBTN);
+		SwingUtilities.updateComponentTreeUI(panel);		
 }
 
+	//Button that unassigns the user the from the current seat. 
+	public static void empLeaveSeatBTN() {
+		empLeaveSeatBTN.setBounds(650, 200, 250, 50);
+		empLeaveSeatBTN.setText("Unassign current seat");
+		panel.add(empLeaveSeatBTN);
+		SwingUtilities.updateComponentTreeUI(panel);		
+	}
+	
 	//Admin specific buttons
 	//A button that takes you to the admin profile page
-	public static void adminprofileBTNMethod() {
-	 adminprofileBTN.setBounds(450, 200, 175, 40);
-	 adminprofileBTN.setText("Create and edit profiles");
+	public static void adminprofileBTN() {
+		adminprofileBTN.setBounds(450, 200, 175, 40);
+		adminprofileBTN.setText("Create and edit profiles");
 		panel.add(adminprofileBTN);
 		SwingUtilities.updateComponentTreeUI(panel);	
 		
 	}
 	//A button that takes you to the admin Change seat page
-	public static void adminchangeSeatBTNMethod() {
+	public static void adminchangeSeatBTN() {
 		adminchangeSeatBTN.setBounds(650, 200, 200, 40);
 		adminchangeSeatBTN.setText("View map and Change seats");	
 		panel.add(adminchangeSeatBTN);
@@ -576,7 +613,7 @@ public class RobinGUI {
 		
 	}
 	//A button that takes you to the admin request page
-	public static void adminrequestBTNMethod() {
+	public static void adminrequestBTN() {
 		adminrequestBTN.setBounds(250, 200, 175, 40);
 		adminrequestBTN.setText("View requests");
 		panel.add(adminrequestBTN);
@@ -639,14 +676,14 @@ public class RobinGUI {
 	 
 	 //Button that moves to the next page in Admin Map
 	 public static void nextRoomBTN() {
-			nextRoomBTN.setBounds(475, 550, 100, 40);
+			nextRoomBTN.setBounds(810, 510, 125, 40);
 			nextRoomBTN.setText("Next Room");
 			panel.add(nextRoomBTN);
 			SwingUtilities.updateComponentTreeUI(panel);	
 		}
 	 //Button that moves to the previous page in Admin Map
 	 public static void previousRoomBTN() {
-		 previousRoomBTN.setBounds(350, 550, 125, 40);
+		 previousRoomBTN.setBounds(680, 510, 125, 40);
 		 previousRoomBTN.setText("Previous Room");
 		 panel.add(previousRoomBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
@@ -666,16 +703,16 @@ public class RobinGUI {
 		 panel.add(empPreviousRoomBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
-
+	 //Assigns employee to seat in Admin Map page.
 	 public static void assignSeatBTN() {
-		 assignSeatBTN.setBounds(575, 550, 100, 40);
+		 assignSeatBTN.setBounds(810, 550, 125, 40);
 		 assignSeatBTN.setText("Assign seat");
 		 panel.add(assignSeatBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	
 		}
-	 
+	 //Removes employee from seat in Admin Map page.
 	 public static void removeSeatBTN() {
-		 removeSeatBTN.setBounds(675, 550, 125, 40);
+		 removeSeatBTN.setBounds(680, 550, 125, 40);
 		 removeSeatBTN.setText("Remove Seat");
 		 panel.add(removeSeatBTN);
 		 SwingUtilities.updateComponentTreeUI(panel);	

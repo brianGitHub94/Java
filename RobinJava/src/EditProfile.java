@@ -13,6 +13,7 @@ public class EditProfile extends RobinGUI{
 	static int employeeID;
 	static String changeRequestDetail;
 	
+	
 	static void mainMenu(int profile) {
 		//Title label
 		getTitle(490,"Edit Menu");

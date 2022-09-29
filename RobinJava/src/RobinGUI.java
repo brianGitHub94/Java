@@ -223,8 +223,6 @@ public class RobinGUI {
 				assignSeatBTN.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if (AdminMap.emailValue == null) {
-							panel.removeAll();
-							AdminMap.getRoom();
 							getFeedbackLB(610, 430, "Please select a current employee from list before assigning.");
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (seatNumberLB.getText() == "Please select a seat number: ") {
@@ -232,19 +230,19 @@ public class RobinGUI {
 							SwingUtilities.updateComponentTreeUI(panel);	
 						} else if (!(AdminMap.seatValue == null)) {
 						panel.removeAll();
-						AdminMap.getRoom();
 						getFeedbackLB(680, 430, "Please empty seat before assigning.");
 						//resets email value
 						AdminMap.emailValue = null;
 						AdminMap.employeeAssigned = null;
 						AdminMap.seatValue = null;
-						panel.removeAll();
 						AdminMap.getRoom();
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue == null && AdminMap.employeeAssigned == null) {
 						SQLSelectScripts.CheckEmpSeatStatus();
 					} else {
+						panel.removeAll();
 						AdminMap.getFeedbackLB(610, 430, "Please remove employee from assigned seat before assigning.");
+						AdminMap.getRoom();
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}
 					}
@@ -265,7 +263,7 @@ public class RobinGUI {
 						AdminMap.seatValue = null;
 						SwingUtilities.updateComponentTreeUI(panel);	
 					}	else if (AdminMap.seatValue != null) {
-						SQLSelectScripts.checkSeatStatus2(1,AdminMap.originalSeatID);
+						SQLSelectScripts.checkSeatStatus2(1,AdminMap.originalSeatID, AdminMap.seatValue);
 					} 	 
 				}
 			});	
@@ -396,7 +394,7 @@ public class RobinGUI {
 				public void actionPerformed(ActionEvent e)  {
 					SQLSelectScripts.getRequestDetail();
 						if (!(employeePage.empSeatid == null)) {
-					SQLSelectScripts.checkSeatStatus2(2, employeePage.empSeatid);
+					SQLSelectScripts.checkSeatStatus2(2, employeePage.empSeatid, null);
 						}
 						panel.removeAll();
 						employeePage.mainMenu();
@@ -496,11 +494,13 @@ public class RobinGUI {
 		static void getCurrentSeatLB()  {
 			if (employeePage.empSeatid == null) {
 			currentSeatLB.setText("Current seat: Not assigned");
+			currentSeatLB.setBounds(450,305,300,30);
 			} else {
 				currentSeatLB.setText("Current seat: Seat " + employeePage.empSeatid);
+				currentSeatLB.setBounds(470,305,300,30);
 			}
 			currentSeatLB.setFont(new Font ("Serif", Font.PLAIN, 20));
-			currentSeatLB.setBounds(445,305,300,30);
+			
 			panel.add(currentSeatLB);
 		
 		}

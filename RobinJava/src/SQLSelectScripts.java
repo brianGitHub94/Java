@@ -189,7 +189,6 @@ public class SQLSelectScripts extends RobinGUI{
    				while ( rs.next() ) {   
    					AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
    					AdminMap.seatnull =  rs.getString("seat_assigned");
-   					System.out.println(AdminMap.seatnull);
    				}
    				if (AdminMap.seatnull.equals("Yes")) {
    					rs.close();
@@ -214,7 +213,7 @@ public class SQLSelectScripts extends RobinGUI{
    		
    		/*This method executes when REMOVE button is clicked in Admin map page to check
    		if the seat is empty in the seatID table. */
-   		public static void checkSeatStatus2(int number, String seatNumber) {
+   		public static void checkSeatStatus2(int number, String seatNumber, String UserEmail) {
    			try {
 		         Class.forName("org.postgresql.Driver");
 		         c = DriverManager
@@ -229,13 +228,21 @@ public class SQLSelectScripts extends RobinGUI{
 		        	 AdminMap.employeeSeatEmpty2 =  rs.getString("employee_name");
 		         }
 		         if (AdminMap.employeeSeatEmpty2 == null && number == 1) {
-         		 getFeedbackLB(650, 430, "Please make sure the seat is not empty.");
 			        rs.close();
 			        stmt.close();
 			        c.close();
 			        panel.removeAll();
+	         		getFeedbackLB(630, 430, "Remove request cancelled. Seat was already empty.");
 			        AdminMap.getRoom();
-		         } else {
+		         } else if(!(AdminMap.employeeSeatEmpty2.equals(UserEmail)) && number == 1) {
+		        	 rs.close();
+				     stmt.close();
+				     c.close();
+				     panel.removeAll();
+				     getFeedbackLB(630, 430, "Remove request cancelled. Employee was already removed.");
+				     AdminMap.getRoom();
+		         }   
+		         else {
 		        	rs.close();
 		            stmt.close();
 		            c.close();

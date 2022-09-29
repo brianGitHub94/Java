@@ -244,7 +244,9 @@ public class SQLTableScripts extends RobinGUI {
 			            AdminMap.SeatEmployee = rs.getString("employee_name");
 			            //Creates an array with all the previous strings.
 			            String[] tableData = {AdminMap.seatNumber,AdminMap.seatAssigned,AdminMap.SeatEmployee};
+			            //The following if is for JavaGraphics class in order to properly display the map seats with the correct color.
 			            if (rs.getString("seat_assigned").equals("Yes"))  {
+			            	//Inserts each value to an array list. 
 			            	RobinGUI.arrayAssigned.add("Yes");
 			            	RobinGUI.arrayNumber.add(rs.getString("seat_number"));
 			            } else {

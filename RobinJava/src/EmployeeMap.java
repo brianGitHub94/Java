@@ -16,7 +16,7 @@ public class EmployeeMap extends RobinGUI{
 		getTitle(480,"Main Room");
 	    employeeMenuBTN();	
 	    SQLTableScripts.GetSeatList2("Main_Room");
-		RobinGUI.getUserLB(220, 400, "User: " + EditProfile.employeeUsername);
+		RobinGUI.getUserLB(10, 400, "User: " + EditProfile.employeeUsername);
 		AdminMap.seatNumberLB(10, 75, "Please select a seat number: ");
 		SQLSelectScripts.getRequestDetail();
 		empRequestBTN();
@@ -47,7 +47,7 @@ public class EmployeeMap extends RobinGUI{
 		getTitle(480,"Room Two");
 	    employeeMenuBTN();	
 	    SQLTableScripts.GetSeatList2("Room_Two");
-		RobinGUI.getUserLB(220, 400, "User: " + EditProfile.employeeUsername);
+		RobinGUI.getUserLB(10, 400, "User: " + EditProfile.employeeUsername);
 		AdminMap.seatNumberLB(10, 75, "Please select a seat number: ");
 		SQLSelectScripts.getRequestDetail();
 		empRequestBTN();
@@ -76,7 +76,7 @@ public class EmployeeMap extends RobinGUI{
 		getTitle(480,"Room Three");
 	    employeeMenuBTN();	
 	    SQLTableScripts.GetSeatList2("Room_Three");
-		RobinGUI.getUserLB(220, 400, "User: " + EditProfile.employeeUsername);
+		RobinGUI.getUserLB(10, 400, "User: " + EditProfile.employeeUsername);
 		AdminMap.seatNumberLB(10, 75, "Please select a seat number: ");
 		SQLSelectScripts.getRequestDetail();
 		empRequestBTN();
